@@ -26,7 +26,7 @@ int main(void)
     empInfoArr[GetHashValue(emp2.empNum)] = emp2;
     empInfoArr[GetHashValue(emp3.empNum)] = emp3;
 
-    //키를 인덱스 갑승로 이용해서 탐색
+    //키를 인덱스 값을 이용해서 탐색
     r1 = empInfoArr[GetHashValue(20120003)];
     r2 = empInfoArr[GetHashValue(20130012)];
     r3 = empInfoArr[GetHashValue(20170049)];
