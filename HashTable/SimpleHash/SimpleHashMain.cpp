@@ -18,13 +18,13 @@ int main(void)
     TBLInit(&myTb1, MyHashFunc);
 
     // 데이터 입력
-    np = MakePersonData(20120003, "Lee", "Seoul");
+    np = MakePersonData(20120003,"Lee","Seoul");
     TBLInsert(&myTb1, GetSSN(np), np);
 
-    np = MakePersonData(20130012, "KIM", "Jeju");
+    np = MakePersonData(20130012,"KIM","Jeju");
     TBLInsert(&myTb1,GetSSN(np),np);
 
-    np = MakePersonData(20170049, "HAN", "Kangwon");
+    np = MakePersonData(20170049,"HAN","Kangwon");
     TBLInsert(&myTb1,GetSSN(np),np);
 
     //데이터 탐색
