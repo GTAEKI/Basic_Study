@@ -2,17 +2,17 @@
 
 using namespace std;
 
-#define PI 3.14
-#define loop(x,n) for(int x = 0; x < n; x++)
+#define APPLE 10
+#define macro(x,n) for(int x = 0; x < n; x++)
 
 int main()
 {
-    cout << PI << '\n';
-    int sum = 0;
-    loop(i,10)
+    cout << APPLE << '\n';
+    int j = 1;
+    macro(i,5)
     {
-        sum += i;
+        j += i;
     }
-    cout << sum << '\n';
+    cout << j << '\n';
     return 0;
 }
