@@ -52,7 +52,7 @@ int LFirtst(List * plist, LData * pdata)
     return TRUE;
 }
 
-int LNext(List * plist, LDATa * pdata)
+int LNext(List * plist, LData * pdata)
 {
     if(plist->cur->next == NULL)
     {
