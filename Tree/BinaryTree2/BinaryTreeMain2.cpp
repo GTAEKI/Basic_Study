@@ -30,6 +30,12 @@ int main(void)
     InorderTraverse(bt1, ShowIntData);
     printf("\n");
     PostorderTraverse(bt1, ShowIntData);
+    printf("\n");
+
+
+    DeleteTree(bt1); // 삭제 함수 추가해보기
+    PreorderTraverse(bt1, ShowIntData); // 0이 출력된다.
+    
     return 0;
     
 }

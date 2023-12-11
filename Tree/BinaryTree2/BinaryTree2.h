@@ -29,4 +29,6 @@ void PreorderTraverse(BTreeNode * bt, VisitFuncPtr action); // 후위 순회
 void InorderTraverse(BTreeNode * bt, VisitFuncPtr action); // 중위 순회
 void PostorderTraverse(BTreeNode * bt, VisitFuncPtr action); // 후위 순회
 
+void DeleteTree(BTreeNode * bt);
+
 #endif
