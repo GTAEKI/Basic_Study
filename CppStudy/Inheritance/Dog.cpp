@@ -10,6 +10,16 @@ namespace samples
     {
     }
 
+    void Dog::Move() const
+    {
+        std::cout << "A dog is moving"<< std::endl;
+    }
+
+    void Dog::Speak() const
+    {
+        std::cout << "Woof " << std::endl;
+    }
+
     string Dog::Bark() const
     {
         return string("BowWow");

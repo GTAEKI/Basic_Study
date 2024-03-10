@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 namespace samples
 {
     class Animal
@@ -7,6 +8,10 @@ namespace samples
         public:
         Animal();
         Animal(int age);
+        virtual ~Animal();
+
+        virtual void Move() const;
+        virtual void Speak() const;
 
         int GetAge() const;
 

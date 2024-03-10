@@ -10,6 +10,9 @@ namespace samples
         public:
         Cat(int age);
 
+        virtual void Move() const;
+        virtual void Speak() const;
+        
         std::string Purr() const;
     };
 }

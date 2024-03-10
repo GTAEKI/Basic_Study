@@ -9,6 +9,10 @@ namespace samples
     {
         public:
         Dog(int age);
+
+        virtual void Move() const;
+        virtual void Speak() const;
+        
         std::string Bark() const;
     };
 }

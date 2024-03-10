@@ -11,6 +11,15 @@ namespace samples
 
     }
 
+    void Cat::Move() const{
+        std::cout << "A cat is moving" << std::endl;
+    }
+
+    void Cat::Speak() const
+    {
+        std::cout << "Meow " << std::endl;
+    }
+
     string Cat::Purr() const
     {
         return string("Purr");
