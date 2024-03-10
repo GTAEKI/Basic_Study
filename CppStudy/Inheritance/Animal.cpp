@@ -8,7 +8,7 @@ namespace samples
     }
 
     Animal::Animal(int age)
-        : mAge(age);
+        : mAge(age)
     {
 
     }
