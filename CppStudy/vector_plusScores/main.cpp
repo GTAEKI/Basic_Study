@@ -1,9 +1,11 @@
 #include<iostream>
 #include"VectorCalculatingSumExample.h"
 
+using namespace samples;
+
 int main()
 {
-    samples::VectorCalculatingSumExample();
+    VectorCalculatingSumExample();
 
     return 0;
 }
