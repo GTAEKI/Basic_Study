@@ -1,25 +1,30 @@
-#include <iostream>
-#include <string>
+#include<bits/stdc++.h>
 using namespace std;
-int main() {
-	int n; 
-    string s; 
+
+int N;
+string pattern;
+vector<string> files;
+
+int main()
+{
+    cin >> N;
+    cin >> pattern;
     
-    cin >> n;
-    cin >> s;
-	int index = s.find('*');
-	string part1 = s.substr(0, index);
-	string part2 = s.substr(index + 1);
+    string front = pattern.substr(0,pattern.find('*'));
+    string back = pattern.substr(pattern.find('*')+1);
     
-	while (n--) {
-		string cmp = "";
-		cin >> cmp;
-		if (part1.size() + part2.size() > cmp.size())cout << "NE\n";
-		else if (cmp.find(part1) == 0) { 
-			string ex = cmp.substr(cmp.size() - (part2.size()));
-			if (ex == part2)cout << "DA\n";
-			else cout << "NE\n";
-		}
-		else cout << "NE\n";
-	}
+    for(int i = 0; i < N; ++i)
+    {
+        string temp;
+        cin >> temp;
+        if(temp.size() >= back.size() && temp.find(front) == 0 && temp.substr(temp.size() - back.size()) == back)
+        {
+            cout << "DA" << "\n";   
+        }
+        else 
+        {
+            cout << "NE" << "\n";
+        }
+    }
+    return 0;
 }
