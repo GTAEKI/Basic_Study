@@ -1,57 +1,43 @@
 #include<bits/stdc++.h>
 using namespace std;
-
-int N,K,cnt;
-const int MAX = 500001;
-int ret = 987654321;
-int visited[MAX];
-
-int calMoveDist(int time)
-{
-    int temp = 0;
-    while(time--)
-    {
-        temp += time;
-    }
-    return temp;
-}
-
+const int max_n = 500000;
+int visited[2][max_n+4], a, b, ok, turn = 1;
 int main()
 {
-    bool check = false;
-    cin >> N >> K;
-    
+    cin >> a >> b;
+    if(a == b){cout << 0; return 0;}
     queue<int> que;
-    que.push(N);
-    visited[N] = 1;
+    visited[0][a]  = 1;
+    que.push(a);
     while(que.size())
     {
-        int now = que.front();
-        que.pop();
-        int nowK = K + calMoveDist(visited[now]);
-        if (nowK > 500000) break;
-        else if(now == nowK)
+        b += turn;
+        if(b > max_n) break;
+        if(visited[turn % 2][b])
         {
-            check = true;
-            ret = visited[now] - 1;
+            ok = true;
             break;
         }
-        
-        for(int next: {now -1, now +1, now*2 })
+        int qSize = que.size();
+        for(int i = 0; i < qSize; i++)
         {
-            if(next < 0 || next >= MAX || visited[next]) continue;
-            visited[next] = visited[now] + 1;
-            que.push(next);
+            int x = que.front(); que.pop();
+            for(int nx : {x+1, x-1, x*2})
+            {
+                if(nx < 0 || nx > max_n || visited[turn %2][nx]) continue;
+                visited[turn % 2][nx] = visited[(turn +1) % 2][x] +1;
+                if(nx == b)
+                {
+                    ok = 1;break;
+                }
+                que.push(nx);
+            }
+            if(ok) break;
         }
+        if(ok) break;
+        turn++;
     }
-    
-    if(!check)
-    {
-        cout << -1;
-    }
-    else 
-    {
-        cout << ret;
-    }
+    if(ok) cout << turn << "\n";
+    else cout << -1 << "\n";
     return 0;
 }
