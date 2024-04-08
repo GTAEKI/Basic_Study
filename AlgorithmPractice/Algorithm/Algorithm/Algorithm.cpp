@@ -1,70 +1,64 @@
-﻿#include <iostream>
-#include <vector>
+﻿#include<iostream>
 using namespace std;
 
-template<typename T>
-class Vector 
+template <typename T>
+class Vector
 {
 public:
-	Vector() 
+	Vector()
 	{
-	
 	}
 
-	~Vector() 
+	~Vector()
 	{
 		if (_data)
-			delete[] _data;
-	}
-
-	void push_back(const T& value) 
-	{
-		if (_size == _capacity) 
 		{
-			// 증설 작업
-			int newCapacity = static_cast<int>(_capacity * 1.5);
-			if (newCapacity == _capacity) newCapacity++; // 0 or 1일 경우
-
-			reserve(newCapacity);
+			delete[] _data;
 		}
-
-		// 데이터 저장
-		_data[_size] = value;
-
-		// 데이터 개수증가
-		_size++;
 	}
 
-	void reserve(int capacity) 
+	void reserve(int capacity)
 	{
-		if (_capacity >= capacity) return;
+		if (_capacity >= capacity)
+		{
+			return;
+		}
 		_capacity = capacity;
 
 		T* newData = new T[_capacity];
 
-		//데이터 복사
-		for (int i = 0; i < _size; i++) 
+		for (int i = 0; i < _size; i++)
 		{
 			newData[i] = _data[i];
 		}
 
-		if (_data) 
+		if (_data)
 		{
 			delete[] _data;
 		}
-
-		// 교체
 		_data = newData;
 	}
 
-	T& operator[](const int pos) { return _data[pos]; };
-
-	int size() { return _size; };
-	int capacity() { return _capacity; };
-
-	void clear() 
+	void push_back(const T& value)
 	{
-		if (_data) 
+		if (_size == _capacity)
+		{
+			int newCapacity = static_cast<int>(_capacity * 1.5f);
+			if (_capacity == newCapacity)
+				++newCapacity;
+
+			reserve(newCapacity);
+		}
+
+		_data[_size] = value;
+		++_size;
+	}
+
+	T& operator [](const int pos) { return _data[pos]; };
+
+	void clear()
+	{
+		if (_data)
 		{
 			delete[] _data;
 			_data = new T[_capacity];
@@ -73,31 +67,37 @@ public:
 		_size = 0;
 	}
 
+	int size()
+	{
+		return _size;
+	}
+
+	int capacity()
+	{
+		return _capacity;
+	}
+
+
+
 private:
 	T* _data = nullptr;
 	int _size = 0;
 	int _capacity = 0;
-};
 
+};
 
 int main()
 {
 	// vector 클래스
-	vector<int> v;
-	v.resize(10);
-	cout << " " << v.size() << " " << v.capacity() << endl;
+	Vector<int> v;
 
-	for (int i = 0; i < 100; i++) 
+	for (int i = 0; i < 100; i++)
 	{
 		v.push_back(i);
 		cout << v[i] << " " << v.size() << " " << v.capacity() << endl;
 	}
-	v.resize(10); // resize 는 사이즈 뒤의 값들은 다 날려버린다
-	cout << v.size() << " " << v.capacity() << endl;
 
 	v.clear();
 	cout << v.size() << " " << v.capacity() << endl;
-
-	// 직접 만든 vector
 
 }
