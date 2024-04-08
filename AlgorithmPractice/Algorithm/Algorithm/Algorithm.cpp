@@ -1,103 +1,212 @@
 ﻿#include<iostream>
+#include<list>
 using namespace std;
 
-template <typename T>
-class Vector
+template<typename T>
+class Node
 {
 public:
-	Vector()
+	Node() : _prev(nullptr), _next(nullptr), _data(T())
 	{
+
 	}
 
-	~Vector()
+	Node(const T& value) : _prev(nullptr), _next(nullptr), _data(value)
 	{
-		if (_data)
-		{
-			delete[] _data;
-		}
+
 	}
 
-	void reserve(int capacity)
+public:
+	Node* _prev;
+	Node* _next;
+	T	  _data;
+};
+
+template<typename T>
+class Iterator 
+{
+public:
+	Iterator() :_node(nullptr) 
 	{
-		if (_capacity >= capacity)
-		{
-			return;
-		}
-		_capacity = capacity;
-
-		T* newData = new T[_capacity];
-
-		for (int i = 0; i < _size; i++)
-		{
-			newData[i] = _data[i];
-		}
-
-		if (_data)
-		{
-			delete[] _data;
-		}
-		_data = newData;
+	
 	}
 
-	void push_back(const T& value)
+	Iterator(Node<T>* node) : _node(node) 
 	{
-		if (_size == _capacity)
-		{
-			int newCapacity = static_cast<int>(_capacity * 1.5f);
-			if (_capacity == newCapacity)
-				++newCapacity;
-
-			reserve(newCapacity);
-		}
-
-		_data[_size] = value;
-		++_size;
+	
 	}
 
-	T& operator [](const int pos) { return _data[pos]; };
-
-	void clear()
+	// ++it
+	Iterator& operator++() 
 	{
-		if (_data)
-		{
-			delete[] _data;
-			_data = new T[_capacity];
-		}
-
-		_size = 0;
+		_node = _node->_next;
+		return *this;
 	}
 
-	int size()
+	// it++
+	Iterator operator++(int) 
+	{
+		Iterator<T> temp = *this;
+		_node = _node->_next;
+		return temp;
+	}
+
+	// --it
+	Iterator& operator--()
+	{
+		_node = _node->_prev;
+		return *this;
+	}
+
+	// it--
+	Iterator operator--(int)
+	{
+		Iterator<T> temp = *this;
+		_node = _node->_prev;
+		return temp;
+	}
+
+	// *it
+	T& operator*() 
+	{
+		return _node->_data;
+	}
+
+	bool operator==(const Iterator& other) 
+	{
+		return _node == other._node;
+	}
+
+	bool operator != (const Iterator& other) 
+	{
+		return _node != other._node;
+	}
+
+public:
+	Node<T>* _node;
+};
+
+template<typename T>
+class List
+{
+public:
+	List() : _size(0) 
+	{
+		// [head] <-> ... <-> [tail]
+		_head = new Node<T>();
+		_tail = new Node<T>();
+		_head->_next = _tail;
+		_tail->_prev = _head;
+	}
+
+	~List() 
+	{
+		while (_size > 0)
+			pop_back();
+
+		delete _head;
+		delete _tail;
+	}
+
+	void push_back(const T& value) 
+	{
+		AddNode(_tail, value);
+	}
+
+	void pop_back() 
+	{
+		RemoveNode(_tail->_prev);
+	}
+
+	int size() 
 	{
 		return _size;
 	}
 
-	int capacity()
+private:
+	Node<T>* AddNode(Node<T>* before, const T& value) 
 	{
-		return _capacity;
+		Node<T>* newNode = new Node<T>(value);
+		Node<T>* prevNode = before->_prev;
+
+		prevNode->_next = newNode;
+		newNode->_prev = prevNode;
+
+		newNode->_next = before;
+		before->_prev = newNode;
+
+		_size++;
+
+		return newNode;
 	}
 
+	Node<T>* RemoveNode(Node<T>* node) 
+	{
+		Node<T>* prevNode = node->_prev;
+		Node<T>* nextNode = node->_next;
 
+		prevNode->_next = nextNode;
+		nextNode->_prev = prevNode;
+
+		delete node;
+
+		_size--;
+
+		return nextNode;
+	}
+
+public:
+	using iterator = Iterator<T>;
+
+	iterator begin() { return iterator(_head->_next); }
+	iterator end() { return iterator(_tail); }
+
+	// it '앞에(이전)' 추가
+	iterator insert(iterator it, const T& value) 
+	{
+		Node<T>* node = AddNode(it._node, value);
+		return iterator(node);
+	}
+
+	iterator erase(iterator it) 
+	{
+		Node<T>* node = RemoveNode(it._node);
+		return iterator(node);
+	}
 
 private:
-	T* _data = nullptr;
-	int _size = 0;
-	int _capacity = 0;
+	Node<T>* _head;
+	Node<T>* _tail;
+	int	     _size;
 
 };
 
+
 int main()
 {
-	// vector 클래스
-	Vector<int> v;
+	List<int> li;
 
-	for (int i = 0; i < 100; i++)
+	List<int>::iterator eraseIt;
+	for (int i = 0; i < 10; i++)
 	{
-		v.push_back(i);
-		cout << v[i] << " " << v.size() << " " << v.capacity() << endl;
+		if (i == 5)
+		{
+			eraseIt = li.insert(li.end(), i);
+		}
+		else
+		{
+			li.push_back(i);
+		}
+
+		//li.push_front(i);
 	}
 
-	v.clear();
-	cout << v.size() << " " << v.capacity() << endl;
+	li.pop_back();
 
+	li.erase(eraseIt);
+
+	for (List<int>::iterator it = li.begin(); it != li.end(); it++)
+	{
+		cout << (*it) << endl;
+	}
 }
