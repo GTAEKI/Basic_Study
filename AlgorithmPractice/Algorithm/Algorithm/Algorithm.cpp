@@ -3,6 +3,7 @@
 #include<list>
 #include<stack>
 #include<queue>
+#include<deque>
 #include "LinkedList.h"
 using namespace std;
 
@@ -125,21 +126,41 @@ private:
 
 int main()
 {
-    //ListQueue<int> q;
+    vector<int> v(3, 1);
+    deque<int> dq(3, 1);
 
-    ArrayQueue<int> q; // stack 및 queue는 deque를 기본 컨테이너로 활용을 한다.
+    v.push_back(2);
+    v.push_back(2);
 
-    for (int i = 0; i < 100; i++) q.push(i);
+    dq.push_back(2);
+    dq.push_back(2);
 
-    while (q.empty() == false) 
-    {
-        int value = q.front();
-        q.pop();
-        cout << value << endl;
-    }
+    dq.push_front(3);
+    dq.push_front(3);
 
-    int size = q.size();
-    cout << size << endl;
+    // deque 의 동작원리
+    // 중간 삽입 삭제 (BAD / BAD)
+    // 처음 끝 삽입 삭제
+    // 임의 접근
+
 
     return 0;
+
+    ////ListQueue<int> q;
+
+    //ArrayQueue<int> q; // stack 및 queue는 deque를 기본 컨테이너로 활용을 한다.
+
+    //for (int i = 0; i < 100; i++) q.push(i);
+
+    //while (q.empty() == false) 
+    //{
+    //    int value = q.front();
+    //    q.pop();
+    //    cout << value << endl;
+    //}
+
+    //int size = q.size();
+    //cout << size << endl;
+
+    //return 0;
 }
