@@ -1,5 +1,7 @@
 #pragma once
 
+#include<cassert>
+
 template<typename T>
 class Vector
 {
@@ -69,6 +71,11 @@ public:
 		_data = newData;
 	}
 
+	bool empty() 
+	{
+		return _size == 0;
+	}
+
 	void clear() 
 	{
 		if (_data) 
@@ -82,9 +89,7 @@ public:
 
 	T& operator[](const int& index)
 	{
-		if (index < 0 || index >= _size) {
-			throw std::out_of_range("Index out of range");
-		}
+		assert(index >= 0 && index < _size); // 인덱스 범위 검사
 		return _data[index];
 	}
 
