@@ -6,6 +6,12 @@
 
 using namespace std;
 
+void SetHp(int* hp) 
+{
+	*hp = 100;
+}
+
+
 int main()
 {
 #pragma region Vector
@@ -43,32 +49,34 @@ int main()
 	v.clear();
 	cout << v.size() << " " << v.capacity() << "\n";*/
 #pragma endregion
+#pragma region LinkedList
+	//LinkedList<int> li;
 
-	LinkedList<int> li;
+	//LinkedList<int>::iterator eraseIt = li.end(); // 초기화
 
-	LinkedList<int>::iterator eraseIt = li.end(); // 초기화
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	if (i == 5)
+	//	{
+	//		eraseIt = li.insert(li.end(), i);
+	//	}
+	//	else
+	//	{
+	//		li.push_back(i);
+	//		//li.push_front(i);
+	//	}
+	//}
 
-	for (int i = 0; i < 10; i++)
-	{
-		if (i == 5)
-		{
-			eraseIt = li.insert(li.end(), i);
-		}
-		else
-		{
-			li.push_back(i);
-			//li.push_front(i);
-		}
-	}
+	//li.pop_back();
 
-	li.pop_back();
+	////li.erase(eraseIt);
 
-	//li.erase(eraseIt);
+	//for (LinkedList<int>::iterator it = li.begin(); it != li.end(); it++)
+	//{
+	//	cout << (*it) << endl;
+	//}
+#pragma endregion
 
-	for (LinkedList<int>::iterator it = li.begin(); it != li.end(); it++)
-	{
-		cout << (*it) << endl;
-	}
 
 	return 0;
 
