@@ -1,5 +1,7 @@
 #pragma once
+using namespace std;
 
+#include<algorithm>
 #include<cassert>
 
 template<typename T>
@@ -69,6 +71,29 @@ public:
 			delete[] _data;
 		}
 		_data = newData;
+	}
+
+	void resize(const int& size) 
+	{
+		if (size <= _size) 
+		{
+			_size = size;
+		}
+		else if (size > _size) 
+		{
+			if (size > _capacity) 
+			{
+				int newCapacity = max(static_cast<int>(_capacity * 1.5), size);
+				reserve(newCapacity);
+			}
+
+			// 데이터 복사 및 빈공간 채우기
+			for (int i = _size; i < size; i++) 
+			{
+				_data[i] = 0;
+			}
+			_size = size;
+		}
 	}
 
 	bool empty() 

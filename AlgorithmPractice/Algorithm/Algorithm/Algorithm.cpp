@@ -6,7 +6,10 @@ using namespace std;
 
 int main() 
 {
-	Vector<int> v;
+	vector<int> v;
+
+	v.reserve(10);
+	v.resize(5);
 
 	for (int i = 0; i < 10; i++) 
 	{
@@ -22,19 +25,16 @@ int main()
 		cout << "[1] " << v[i] << "\n";
 	}
 
-	/*for (int i = 0; i < v.size(); i++)
-	{
-		v.pop_back();
-	}*/
-
 	while (!v.empty()) 
 	{
 		v.pop_back();
 	}
 
+	v.resize(15);
+
 	for (int i = 0; i < v.size(); i++)
 	{
-		cout << "[3] " << v[i] << "\n";
+		cout << "[3] " << v[i] << " " << v.capacity() << "\n";
 	}
 
 	v.clear();
