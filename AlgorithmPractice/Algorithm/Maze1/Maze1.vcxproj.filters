@@ -2,15 +2,19 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Main">
-      <UniqueIdentifier>{34d00ad6-668f-49b2-b05c-e429d60335ed}</UniqueIdentifier>
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Board">
-      <UniqueIdentifier>{b33a1a85-f7f7-48ce-8761-8e34d751b66c}</UniqueIdentifier>
+      <UniqueIdentifier>{97a56162-367a-40c2-956f-6c027f091632}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Maze.cpp">
+    <ClCompile Include="Maze1.cpp">
       <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Board</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Main</Filter>
@@ -18,21 +22,18 @@
     <ClCompile Include="ConsoleHelper.cpp">
       <Filter>Board</Filter>
     </ClCompile>
-    <ClCompile Include="Board.cpp">
-      <Filter>Board</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Main</Filter>
+    <ClInclude Include="Board.h">
+      <Filter>Board</Filter>
     </ClInclude>
     <ClInclude Include="Types.h">
       <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="ConsoleHelper.h">
-      <Filter>Board</Filter>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
+    <ClInclude Include="ConsoleHelper.h">
       <Filter>Board</Filter>
     </ClInclude>
   </ItemGroup>

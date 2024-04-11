@@ -1,9 +1,14 @@
-﻿#include <iostream>
-#include "pch.h"
+﻿#include "pch.h"
+#include <iostream>
 #include "ConsoleHelper.h"
+#include "Board.h"
+
+Board board;
 
 int main()
 {
+	board.Init(25);
+
 	std::locale::global(std::locale("ko_KR.UTF-8"));
 
 	// 거의 대부분의 게임들은 무한루프안에서 돌아간다.
@@ -25,21 +30,11 @@ int main()
 		const uint64 deltaTick = currentTick - lastTick;
 		lastTick = currentTick;
 #pragma endregion
+		// 입력
 
-		ConsoleHelper::SetCursorPosition(0, 0);
-		ConsoleHelper::ShowConsoleCursor(false);
-		ConsoleHelper::SetCursorColor(ConsoleColor::RED);
+		// 로직
 
-		const char* TILE = "■";
-
-		for (int32 y = 0; y < 25; y++)
-		{
-			for (int32 x = 0; x < 25; x++)
-			{
-				cout << TILE;
-			}
-
-			cout << endl;
-		}
+		// 랜더링
+		board.Render();
 	}
 }
