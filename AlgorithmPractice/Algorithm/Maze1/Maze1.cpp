@@ -7,6 +7,7 @@ Board board;
 
 int main()
 {
+	::srand(static_cast<unsigned>(time(nullptr))); // 랜덤 시드설정
 	board.Init(25);
 
 	std::locale::global(std::locale("ko_KR.UTF-8"));

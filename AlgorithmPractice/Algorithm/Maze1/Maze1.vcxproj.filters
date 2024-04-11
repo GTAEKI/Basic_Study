@@ -22,6 +22,9 @@
     <ClCompile Include="ConsoleHelper.cpp">
       <Filter>Board</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h">
@@ -36,5 +39,6 @@
     <ClInclude Include="ConsoleHelper.h">
       <Filter>Board</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h" />
   </ItemGroup>
 </Project>

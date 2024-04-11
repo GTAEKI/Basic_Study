@@ -29,6 +29,9 @@ public:
 	TileType GetTileType(Pos pos); // 어떤 타일이 있는지 체크
 	ConsoleColor GetTileColor(Pos pos); // 어떤 위치 어떤 색상인지
 
+	Pos GetEnterPos() { return Pos{ 1,1 }; };
+	Pos GetExitPos() { return Pos{ _size - 2, _size - 2 }; };
+
 private:
 	TileType _tile[BOARD_MAX_SIZE][BOARD_MAX_SIZE] = {};
 	int32 _size = 0;
