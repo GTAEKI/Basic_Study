@@ -6,7 +6,7 @@ class Player
 {
 	enum 
 	{
-		MOVE_TICK = 100, // 내가 얼마마다 움직일것인지
+		MOVE_TICK = 1, // 내가 얼마마다 움직일것인지
 	};
 
 public:
