@@ -4,6 +4,11 @@ class Board;
 
 class Player
 {
+	enum 
+	{
+		MOVE_TICK = 100, // 내가 얼마마다 움직일것인지
+	};
+
 public:
 	Player();
 	~Player();
@@ -20,11 +25,15 @@ private:
 	void TurnRight();
 	void TurnLeft();
 	void MovePos(Pos& pos);
+	bool CanGo(Pos pos);
 
 private:
 	Pos _pos = {};
 	int32 _dir = DIR_UP;
 	Board* _board = nullptr;
 
+	vector<Pos> _path;
+	int32 _pathIndex = 0; // 현재 내가 어디까지 이동했는지
+	uint64 _sumTick = 0;
 };
 
