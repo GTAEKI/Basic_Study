@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <cassert>
 using namespace std;
 

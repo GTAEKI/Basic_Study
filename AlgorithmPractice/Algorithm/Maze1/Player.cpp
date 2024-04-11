@@ -36,139 +36,55 @@ void Player::Init(Board* board)
 	while (pos != dest)
 	{
 		// 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인.
-		int32 newDir = (_dir - 1 + DIR_COUNT) % DIR_COUNT; // 와우
-		//if (CheckRightDir(pos))
-		if(CanGo(pos + front[newDir]))
+		int32 newDir = (_dir - 1 + DIR_COUNT) % DIR_COUNT;
+		if (CanGo(pos + front[newDir]))
 		{
 			// 오른쪽 방향으로 90도 회전
-			//TurnRight();
 			_dir = newDir;
 			// 앞으로 한 보 전진
-			//MovePos(pos);
 			pos += front[_dir];
 
 			_path.push_back(pos);
 		}
 		// 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
-		//else if (CheckFrontDir(pos))
-		else if(CanGo(pos + front[_dir]))
+		else if (CanGo(pos + front[_dir]))
 		{
 			// 앞으로 한 보 전진
-			//MovePos(pos);
 			pos += front[_dir];
 
 			_path.push_back(pos);
 		}
-		else 
+		else
 		{
-			// 왼쪽 방향으로 90도 회전.
-			//TurnLeft();
-			_dir = (_dir + 1) % DIR_COUNT; // 와우
+			_dir = (_dir + 1) % DIR_COUNT;
 		}
 	}
-}
 
-// 직접구현
-bool Player::CheckRightDir(const Pos& pos) 
-{
-	switch (_dir) 
+	stack<Pos> s;
+
+	for (int i = 0; i < _path.size() - 1; i++)
 	{
-	case DIR_UP:
-		if (_board->GetTileType(Pos{ pos.y, pos.x + 1 }) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_RIGHT:
-		if (_board->GetTileType(Pos{ pos.y+1, pos.x}) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_LEFT:
-		if (_board->GetTileType(Pos{ pos.y-1, pos.x}) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_DOWN:
-		if (_board->GetTileType(Pos{ pos.y, pos.x-1}) == TileType::EMPTY) return true;
-		else return false;
+		if (s.empty() == false && s.top() == _path[i + 1])
+			s.pop();
+		else
+			s.push(_path[i]);
 	}
-}
 
+	// 목적지 도착
+	if (_path.empty() == false)
+		s.push(_path.back());
 
-bool Player::CheckFrontDir(const Pos& pos)
-{
-	switch (_dir)
+	vector<Pos> path;
+	while (s.empty() == false)
 	{
-	case DIR_UP:
-		if (_board->GetTileType(Pos{ pos.y-1, pos.x}) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_RIGHT:
-		if (_board->GetTileType(Pos{ pos.y, pos.x+1 }) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_LEFT:
-		if (_board->GetTileType(Pos{ pos.y, pos.x-1}) == TileType::EMPTY) return true;
-		else return false;
-	case DIR_DOWN:
-		if (_board->GetTileType(Pos{ pos.y+1, pos.x}) == TileType::EMPTY) return true;
-		else return false;
+		path.push_back(s.top());
+		s.pop();
 	}
-}
 
+	std::reverse(path.begin(), path.end());
 
-void Player::TurnRight() 
-{
-	_dir = (_dir - 1 + DIR_COUNT) % DIR_COUNT; // 와우
+	_path = path;
 
-	/*
-	switch (_dir)
-	{
-	case DIR_UP:
-		_dir = DIR_RIGHT;
-		return;
-	case DIR_LEFT:
-		_dir = DIR_UP;
-		return;
-	case DIR_RIGHT:
-		_dir = DIR_DOWN;
-		return;
-	case DIR_DOWN:
-		_dir = DIR_LEFT;
-		return;
-	}*/
-}
-
-void Player::TurnLeft() 
-{
-	_dir = (_dir + 1) % DIR_COUNT; // 와우
-
-	/*switch (_dir)
-	{
-	case DIR_UP:
-		_dir = DIR_LEFT;
-		return;
-	case DIR_LEFT:
-		_dir = DIR_DOWN;
-		return;
-	case DIR_RIGHT:
-		_dir = DIR_UP;
-		return;
-	case DIR_DOWN:
-		_dir = DIR_RIGHT;
-		return;
-	}*/
-}
-
-void Player::MovePos(Pos& pos)
-{
-	switch (_dir)
-	{
-	case DIR_UP:
-		pos.y -= 1;
-		return;
-	case DIR_RIGHT:
-		pos.x += 1;
-		return;
-	case DIR_LEFT:
-		pos.x -= 1;
-		return;
-	case DIR_DOWN:
-		pos.y += 1;
-		return;
-	}
 }
 
 bool Player::CanGo(Pos pos)
@@ -183,7 +99,7 @@ void Player::Update(uint64 deltaTick)
 		return;
 
 	_sumTick += deltaTick;
-	if (_sumTick >= MOVE_TICK) 
+	if (_sumTick >= MOVE_TICK)
 	{
 		_sumTick = 0;
 
