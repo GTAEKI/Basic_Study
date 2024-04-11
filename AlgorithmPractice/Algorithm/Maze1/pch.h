@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <iostream>
 #include <vector>
+#include <cassert>
 using namespace std;
 
 // 사용할 구조체와 enum값들을 만들것

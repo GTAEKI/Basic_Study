@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Board.h"
 #include "ConsoleHelper.h"
+#include "Player.h"
 
 const char* TILE = "■";
 
@@ -12,9 +13,12 @@ Board::~Board()
 {
 }
 
-void Board::Init(int32 size)
+void Board::Init(int32 size, Player* player)
 {
+	assert(size < BOARD_MAX_SIZE && size % 2 != 0);
+
 	_size = size;
+	_player = player;
 
 	GenerateMap();
 }
@@ -25,9 +29,9 @@ void Board::Render()
 	ConsoleHelper::ShowConsoleCursor(false);
 	//ConsoleHelper::SetCursorColor(ConsoleColor::RED);
 
-	for (int32 y = 0; y < 25; y++)
+	for (int32 y = 0; y < _size; y++)
 	{
-		for (int32 x = 0; x < 25; x++)
+		for (int32 x = 0; x < _size; x++)
 		{
 			ConsoleColor color = GetTileColor(Pos{ y,x });
 			ConsoleHelper::SetCursorColor(color);
@@ -106,6 +110,9 @@ TileType Board::GetTileType(Pos pos)
 
 ConsoleColor Board::GetTileColor(Pos pos)
 {
+	if (_player && _player->GetPos() == pos) // _player 가 null이 아니고, 현재 위치라면
+		return ConsoleColor::YELLOW;
+
 	if (GetExitPos() == pos)
 		return ConsoleColor::BLUE;
 
