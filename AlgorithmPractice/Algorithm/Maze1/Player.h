@@ -15,6 +15,13 @@ public:
 	Pos GetPos() { return _pos; }
 
 private:
+	bool CheckRightDir(const Pos& pos);
+	bool CheckFrontDir(const Pos& pos);
+	void TurnRight();
+	void TurnLeft();
+	void MovePos(Pos& pos);
+
+private:
 	Pos _pos = {};
 	int32 _dir = DIR_UP;
 	Board* _board = nullptr;

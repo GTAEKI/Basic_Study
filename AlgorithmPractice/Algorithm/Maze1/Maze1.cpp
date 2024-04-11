@@ -9,11 +9,13 @@ Player player;
 
 int main()
 {
+	locale::global(std::locale("ko_KR.UTF-8")); // UTF-8
+
 	::srand(static_cast<unsigned>(time(nullptr))); // 랜덤 시드설정
+
 	board.Init(25, &player);
 	player.Init(&board);
 
-	std::locale::global(std::locale("ko_KR.UTF-8"));
 
 	// 거의 대부분의 게임들은 무한루프안에서 돌아간다.
 	// 물론 온라인게임일 경우 일부 로직은 서버쪽에 분산이 되어 처리될것

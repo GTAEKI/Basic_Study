@@ -18,7 +18,8 @@ struct Pos
 
 	bool operator!=(Pos& other)
 	{
-		return !(*this == other);
+		//return !(*this == other);
+		return !(y == other.y && x == other.x);
 	}
 
 	Pos operator+(Pos& other)
