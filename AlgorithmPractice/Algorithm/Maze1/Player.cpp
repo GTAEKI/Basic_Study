@@ -10,6 +10,8 @@ Player::~Player()
 {
 }
 
+Pos visited[BOARD_MAX_SIZE][BOARD_MAX_SIZE];
+
 void Player::Init(Board* board)
 {
 	_pos = board->GetEnterPos();
@@ -32,58 +34,106 @@ void Player::Init(Board* board)
 		Pos {0,1},	//RIGHT
 	};
 
-	// 목적지 도착하기 전에는 계속 실행
-	while (pos != dest)
+	Pos comp = Pos{ 0,0 };
+	Pos start = Pos{ -1,-1 };
+	bool arrived = false;
+
+	queue<Pos> que;
+	que.push(pos);
+	visited[pos.y][pos.x] = Pos{-1,-1};
+
+	while (que.empty() == false)
 	{
-		// 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인.
-		int32 newDir = (_dir - 1 + DIR_COUNT) % DIR_COUNT;
-		if (CanGo(pos + front[newDir]))
-		{
-			// 오른쪽 방향으로 90도 회전
-			_dir = newDir;
-			// 앞으로 한 보 전진
-			pos += front[_dir];
+		Pos here = que.front();
+		que.pop();
 
-			_path.push_back(pos);
-		}
-		// 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
-		else if (CanGo(pos + front[_dir]))
+		for (int index = 0; index < 4; index++)
 		{
-			// 앞으로 한 보 전진
-			pos += front[_dir];
+			Pos there = here + front[index];
+			if (there.x < 0 || there.y < 0 ||
+				there.x >= _board->GetSize() ||
+				there.y >= _board->GetSize() ||
+				_board->GetTileType(there) == TileType::WALL)
+				continue;
+			if (visited[there.y][there.x] == comp) continue;
+			if (visited[there.y][there.x] == dest) 
+			{
+				arrived = true;
+				visited[there.y][there.x] = visited[here.y][here.x];
+				break;
+			} 
 
-			_path.push_back(pos);
+			que.push(there);
+			visited[there.y][there.x] = visited[here.y][here.x];
 		}
-		else
-		{
-			_dir = (_dir + 1) % DIR_COUNT;
-		}
+
+		if (arrived == true) break;
 	}
 
-	stack<Pos> s;
+	Pos tempPos = visited[dest.y][dest.x];
 
-	for (int i = 0; i < _path.size() - 1; i++)
+	while (true) 
 	{
-		if (s.empty() == false && s.top() == _path[i + 1])
-			s.pop();
-		else
-			s.push(_path[i]);
+		if (tempPos == start) break;
+
+		_path.push_back(tempPos);
+		tempPos = visited[tempPos.y][tempPos.x];
 	}
 
-	// 목적지 도착
-	if (_path.empty() == false)
-		s.push(_path.back());
+	std::reverse(_path.begin(), _path.end());
 
-	vector<Pos> path;
-	while (s.empty() == false)
-	{
-		path.push_back(s.top());
-		s.pop();
-	}
+	//// 목적지 도착하기 전에는 계속 실행
+	//while (pos != dest)
+	//{
+	//	// 1. 현재 바라보는 방향을 기준으로 오른쪽으로 갈 수 있는지 확인.
+	//	int32 newDir = (_dir - 1 + DIR_COUNT) % DIR_COUNT;
+	//	if (CanGo(pos + front[newDir]))
+	//	{
+	//		// 오른쪽 방향으로 90도 회전
+	//		_dir = newDir;
+	//		// 앞으로 한 보 전진
+	//		pos += front[_dir];
 
-	std::reverse(path.begin(), path.end());
+	//		_path.push_back(pos);
+	//	}
+	//	// 2. 현재 바라보는 방향을 기준으로 전진할 수 있는지 확인
+	//	else if (CanGo(pos + front[_dir]))
+	//	{
+	//		// 앞으로 한 보 전진
+	//		pos += front[_dir];
 
-	_path = path;
+	//		_path.push_back(pos);
+	//	}
+	//	else
+	//	{
+	//		_dir = (_dir + 1) % DIR_COUNT;
+	//	}
+	//}
+
+	//stack<Pos> s;
+
+	//for (int i = 0; i < _path.size() - 1; i++)
+	//{
+	//	if (s.empty() == false && s.top() == _path[i + 1])
+	//		s.pop();
+	//	else
+	//		s.push(_path[i]);
+	//}
+
+	//// 목적지 도착
+	//if (_path.empty() == false)
+	//	s.push(_path.back());
+
+	//vector<Pos> path;
+	//while (s.empty() == false)
+	//{
+	//	path.push_back(s.top());
+	//	s.pop();
+	//}
+
+	//std::reverse(path.begin(), path.end());
+
+	//_path = path;
 
 }
 
