@@ -53,6 +53,110 @@ void CreateGraph()
 
 }
 
+void Dijkstra2(int here) 
+{
+	struct VertexCost 
+	{
+		int vertex;
+		int cost;
+	};
+
+	list<VertexCost> discovered;
+	vector<int> best(vertices.size(), INT32_MAX);
+	vector<int> parent(vertices.size());
+
+	discovered.push_back(VertexCost{here, 0});
+	best[here] = 0;
+	parent[here] = 0;
+
+	while (discovered.empty() == false) 
+	{
+		list<VertexCost>::iterator bestIt;
+		int bestCost = INT32_MAX;
+		for (auto iter = discovered.begin(); iter != discovered.end(); iter++) 
+		{
+			if (iter->cost < bestCost) 
+			{
+				bestCost = iter->cost;
+				bestIt = iter;
+			}
+		}
+
+		int cost = bestIt->cost;
+		here = bestIt->vertex;
+		discovered.erase(bestIt);
+
+		//if (best[here] < cost) continue;
+
+		for (int there = 0; there < vertices.size(); there++) 
+		{
+			if (adjacent[here][there] == -1) continue;
+
+			int newCost = best[here] + adjacent[here][there];
+			if (best[there] < newCost) continue;
+
+			discovered.push_back(VertexCost{ there,newCost });
+			best[there] = newCost;
+			parent[there] = here;
+		}
+	}
+	int a = 3;
+}
+
+
+
+void Dijkstra1(int here) 
+{
+	struct VertexCost 
+	{
+		int vertex;
+		int cost;
+	};
+
+	list<VertexCost> visited;
+	vector<int> best(vertices.size(), INT32_MAX); // 최고 값
+	vector<int> parent(vertices.size()); // 부모값
+
+	visited.push_back(VertexCost{here,0});
+	best[here] = 0;
+	parent[here] = here;
+
+	while (visited.empty() == false) 
+	{
+		list<VertexCost>::iterator bestIt;
+		int bestCost = INT32_MAX;
+		
+		for (auto iter = visited.begin(); iter != visited.end(); iter++) 
+		{
+			if (iter->cost < bestCost) 
+			{
+				bestCost = iter->cost;
+				bestIt = iter;
+			}
+		}
+
+		here = bestIt->vertex;
+		visited.erase(bestIt);
+
+
+		if (best[here] < bestCost) // 더 빠른경로가 있었다면
+			continue;
+
+		for (int there = 0; there < vertices.size(); there++) 
+		{
+			if (adjacent[here][there] == -1) continue;
+
+			int newCost = best[here] + adjacent[here][there];
+			if (best[there] < newCost) continue;
+
+			visited.push_back(VertexCost{ there, newCost });
+			best[there] = newCost;
+			parent[there] = here;
+		}
+	}
+}
+
+
 void Dijikstra(int here) 
 {
 	// std::pair<int,int>
@@ -77,14 +181,20 @@ void Dijikstra(int here)
 	best[here] = 0;
 	parent[here] = here;
 
+
+	int count = 0;
 	while (discovered.empty() == false) 
 	{
+		count++;
+
 		// 제일 좋은 후보를 찾는다
 		list<VertexCost>::iterator bestIt;
 		int bestCost = INT32_MAX;
 
 		for (auto it = discovered.begin(); it != discovered.end(); it++) 
 		{
+			cout << count<<": vertext -> " << it->vertex << ", cost -> " << it->cost <<"\n";
+
 			if (it->cost < bestCost) 
 			{
 				bestCost = it->cost;
@@ -96,7 +206,7 @@ void Dijikstra(int here)
 		here = bestIt->vertex;
 		discovered.erase(bestIt);
 
-		// 방문? 더 짧은 경로를 뒤늦게 찾았다면 스킵
+		// 방문? 뒤늦게 찾은 느린경로들은 전부 스킵
 		if (best[here] < cost)
 			continue;
 
@@ -118,14 +228,15 @@ void Dijikstra(int here)
 			parent[there] = here;
 		}
 	}
-	int a = 3;
 }
 
 int main()
 {
 	CreateGraph();
 
-	Dijikstra(0);
+	//Dijikstra(0);
+	//Dijkstra1(0);
+	Dijkstra2(0);
 
 
 	return 0;
