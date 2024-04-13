@@ -322,7 +322,7 @@ void Player::AStar()
 
 			// 비용 계산
 			int32 g = node.g + cost[dir];
-			int32 h = 10 * (abs(dest.y - start.y)) + abs(dest.x - nextPos.x);
+			int32 h = 10 * (abs(dest.y - nextPos.y)) + abs(dest.x - nextPos.x);
 			
 			// 다른 경로에서 더 빠른 길을 찾았으면 스킵
 			// 동점까지도 스킵
@@ -356,5 +356,3 @@ void Player::AStar()
 
 	std::reverse(_path.begin(), _path.end());
 }
-
-
