@@ -20,16 +20,11 @@ public:
 	Pos GetPos() { return _pos; }
 
 private:
-	bool CheckRightDir(const Pos& pos);
-	bool CheckFrontDir(const Pos& pos);
-	void TurnRight();
-	void TurnLeft();
-	void MovePos(Pos& pos);
 	bool CanGo(Pos pos);
 
 	void RightHand();
-	void SelfBfs();
 	void Bfs();
+	void AStar();
 
 private:
 	Pos _pos = {};
