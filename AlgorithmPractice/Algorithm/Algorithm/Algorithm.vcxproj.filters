@@ -35,7 +35,7 @@
     <ClInclude Include="Dijkstra.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Dijkstra2.h">
+    <ClInclude Include="Tree.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
