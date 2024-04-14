@@ -184,12 +184,14 @@
   <ItemGroup>
     <ClCompile Include="Algorithm.cpp" />
     <ClCompile Include="BinarySearchTree.cpp" />
+    <ClCompile Include="BinarySearchTree2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="BfsDfs.h" />
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BinarySearchTree2.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="Vector.h" />
