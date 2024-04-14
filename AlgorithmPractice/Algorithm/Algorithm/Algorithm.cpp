@@ -22,9 +22,7 @@ int main()
 	bst.Insert(40);
 	bst.Insert(50);
 
-	bst.Delete(20);
-	bst.Delete(40);
-	bst.Delete(20);
+	//bst.Delete(10);
 
 	bst.Print();
 
