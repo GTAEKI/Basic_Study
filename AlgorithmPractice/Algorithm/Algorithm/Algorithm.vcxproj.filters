@@ -68,5 +68,8 @@
     <ClInclude Include="LinkedList2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
