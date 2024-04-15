@@ -2,6 +2,7 @@
 
 #include<iostream>
 #include<vector>
+#include<queue>
 using namespace std;
 
 // DFS (Depth First Search) 깊이 우선 탐색
