@@ -2,13 +2,13 @@
 #include <iostream>
 #include <windows.h>
 using namespace std;
-
-void SetCursorPosition(int x, int y)
-{
-	HANDLE output = ::GetStdHandle(STD_OUTPUT_HANDLE);
-	COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
-	::SetConsoleCursorPosition(output, pos);
-}
+//
+//void SetCursorPosition(int x, int y)
+//{
+//	HANDLE output = ::GetStdHandle(STD_OUTPUT_HANDLE);
+//	COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+//	::SetConsoleCursorPosition(output, pos);
+//}
 
 // 구현하는 방법이 굉장히 만다.
 void BinarySearchTree::Insert(int key)
@@ -104,7 +104,7 @@ void BinarySearchTree::Print(Node* node, int x, int y)
 	if (node == nullptr)
 		return;
 
-	SetCursorPosition(x, y);
+	//SetCursorPosition(x, y);
 	cout << node->key;
 	Print(node->left, x - (5 / (y + 1)), y + 1);
 	Print(node->right, x + (5 / (y + 1)), y + 1);
