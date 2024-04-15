@@ -4,6 +4,7 @@
 #include<stack>
 #include<list>
 #include "RedBlackTree.h"
+#include "Vector2.h"
 using namespace std;
 
 #include<thread>
@@ -14,7 +15,29 @@ using namespace std;
 
 int main()
 {
-	RedBlackTree bst;
+	Vector<int> v;
+
+	v.push_back(1);
+	v.push_back(3);
+	v.push_back(5);
+
+	for (int i = 0; i < v.size(); i++) 
+	{
+		cout << v[i] << "\n";
+	}
+
+	v.pop_back();
+	v.pop_back();
+
+	for (int i = 0; i < v.size(); i++)
+	{
+		cout << v[i] << "\n";
+	}
+
+	cout << v.empty();
+
+
+	/*RedBlackTree bst;
 
 	bst.Insert(30);
 	bst.Print();
@@ -38,7 +61,9 @@ int main()
 
 	bst.Delete(10);
 	bst.Print();
-	this_thread::sleep_for(1s);
+	this_thread::sleep_for(1s);*/
+
+
 
 	return 0;
 }
