@@ -28,6 +28,16 @@ void SetCursorPosition(int x, int y)
 	::SetConsoleCursorPosition(output, pos);
 }
 
+void ShowConsoleCursor(bool flag)
+{
+	HANDLE output = ::GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO cursorInfo;
+	::GetConsoleCursorInfo(output, &cursorInfo);
+	cursorInfo.bVisible = flag;
+	::SetConsoleCursorInfo(output, &cursorInfo);
+}
+
+
 RedBlackTree::RedBlackTree()
 {
 	_nil = new Node(); //Black
@@ -122,8 +132,8 @@ void RedBlackTree::InsertFixup(Node* node)
 		else // 부모는 조부모의 오른쪽인가?
 		{
 			Node* uncle = node->parent->parent->left;
-			
-			if (uncle->color == Color::Red) 
+
+			if (uncle->color == Color::Red)
 			{
 				node->parent->color = Color::Black;
 				uncle->color = Color::Black;
@@ -131,9 +141,9 @@ void RedBlackTree::InsertFixup(Node* node)
 
 				node = node->parent->parent;
 			}
-			else 
+			else
 			{
-				if (node == node->parent->left) 
+				if (node == node->parent->left)
 				{
 					node = node->parent;
 					RightRotate(node);
@@ -155,14 +165,30 @@ void RedBlackTree::Delete(int key)
 	Delete(deleteNode);
 }
 
+// 먼저 BST 삭제 실행
+
 void RedBlackTree::Delete(Node* node)
 {
-	if (node == nullptr) return;
+	if (node == _nil) return;
 
-	if (node->left == nullptr)
+	if (node->left == _nil)
+	{
+		Color color = node->color;
+		Node* right = node->right;
 		Replace(node, node->right);
-	else if (node->right == nullptr)
+
+		if (color == Color::Black) // 블랙일때만 실행해주면 됨
+			DeleteFixup(right);
+	}
+	else if (node->right == _nil)
+	{
+		Color color = node->color;
+		Node* right = node->left;
 		Replace(node, node->left);
+
+		if (color == Color::Black)
+			DeleteFixup(right);
+	}
 	else
 	{
 		// 다음 데이터 찾기
@@ -170,23 +196,143 @@ void RedBlackTree::Delete(Node* node)
 		node->key = next->key;
 		Delete(next);
 	}
+
+
+}
+
+// 먼저 BST 삭제 실행
+// - Case1) 삭제할 노드가 Red-> 그냥 삭제! 끝!
+// - Case2) root가 DB -> 그냥 추가 Black 삭제! 끝!
+// - Case3) DB의 sibling 노드가 Red
+// -- s = black, p = red (s <-> p 색상 교환)
+// -- DB 방향으로 rotate(p)
+// -- goto other case
+// - Case4) DB의 sibling 노드가 Black && sibling의 양쪽 자식도 Black
+// -- 추가 Black을 parent에게 이전
+// --- p가 Red이면 Black 됨
+// --- p가 Black이면 DB 됨
+// s = red
+// p를 대상으로 알고리즘 이어서 실행 (DB가 여전히 존재한다면)
+// - Case5) DB의 sibling 노드가 Black && sibling의 near child = red, far child = black
+// -- s <-> near 색상 교환
+// -- far 방향으로 rotate(s)
+// -- goto case 6
+// - Case 6) DB의 sibling 노드가 Black && sibling의 far child = red
+// -- p <-> s 색상 교환
+// -- far = black
+// -- rotate(p) (DB 방향으로)
+// -- 추가 Black 제거
+void RedBlackTree::DeleteFixup(Node* node)
+{
+	Node* x = node; // 삭제한 노드일 수도 삭제한 이후 이동한 뒤 붙은 노드 일수도
+
+	// [Case1][Case2]
+	while (x != _root && x->color == Color::Black)
+	{
+		if (x == x->parent->left)
+		{
+			// [Case3]
+			Node* s = x->parent->right;
+			if (s->color == Color::Red)
+			{
+				s->color = Color::Black;
+				x->parent->color = Color::Red;
+
+				LeftRotate(x->parent);
+				s = x->parent->right;
+			}
+
+			// [Case4]
+			if (s->left->color == Color::Black && s->right->color == Color::Black)
+			{
+				s->color = Color::Red;
+				x = x->parent;
+			}
+			else
+			{
+				// [Case5]
+				if (s->right->color == Color::Black)
+				{
+					s->left->color = Color::Black;
+					s->color = Color::Red;
+					RightRotate(s);
+					s = x->parent->right;
+				}
+
+				//[Case 6]
+				s->color = x->parent->color;
+				x->parent->color = Color::Black;
+				s->right->color = Color::Black;
+				LeftRotate(x->parent);
+				x = _root;
+			}
+		}
+		else
+		{
+			// [Case3]
+			Node* s = x->parent->left;
+			if (s->color == Color::Red)
+			{
+				s->color = Color::Black;
+				x->parent->color = Color::Red;
+
+				RightRotate(x->parent);
+				s = x->parent->left;
+			}
+
+			// [Case4]
+			if (s->right->color == Color::Black && s->left->color == Color::Black)
+			{
+				s->color = Color::Red;
+				x = x->parent;
+			}
+			else
+			{
+				// [Case5]
+				if (s->left->color == Color::Black)
+				{
+					s->right->color = Color::Black;
+					s->color = Color::Red;
+					LeftRotate(s);
+					s = x->parent->left;
+				}
+
+				//[Case 6]
+				s->color = x->parent->color;
+				x->parent->color = Color::Black;
+				s->left->color = Color::Black;
+				RightRotate(x->parent);
+				x = _root;
+			}
+
+		}
+	}
+
+	x->color = Color::Black;
 }
 
 // u 서브트리를 v 서브트리로 교체
 // 그리고 delete u
 void RedBlackTree::Replace(Node* u, Node* v)
 {
-	if (u->parent == nullptr) // 처음부터 root노드였다는 뜻
+	if (u->parent == _nil) // 처음부터 root노드였다는 뜻
 		_root = v;
 	else if (u == u->parent->left)
 		u->parent->left = v;
 	else
 		u->parent->right = v;
 
-	if (v)
-		v->parent = u->parent;
+	//if (v) -> 이제는 null체크가 필요없음
+	v->parent = u->parent;
 
 	delete u;
+}
+
+void RedBlackTree::Print()
+{
+	::system("cls"); // 콘솔을 클리어 해달라는 뜻
+	ShowConsoleCursor(false); // 커서 깜빡임 제거
+	Print(_root, 10, 0);
 }
 
 void RedBlackTree::Print(Node* node, int x, int y)
@@ -252,7 +398,7 @@ void RedBlackTree::LeftRotate(Node* x)
 
 	x->right = y->left;
 
-	if(y->left != _nil)
+	if (y->left != _nil)
 		y->left->parent = x;
 
 	y->parent = x->parent;
@@ -276,7 +422,7 @@ void RedBlackTree::RightRotate(Node* y)
 
 	if (x->right != _nil)
 		x->right->parent = y;
-	
+
 	x->parent = y->parent;
 
 	if (y->parent == _nil)

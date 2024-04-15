@@ -36,9 +36,10 @@ public:
 
 	void Delete(int key);
 	void Delete(Node* node);
-	void Replace(Node* u, Node* v);
+	void DeleteFixup(Node* node);
 
-	void Print() { Print(_root, 10, 0); }
+	void Replace(Node* u, Node* v);
+	void Print();
 	void Print(Node* node, int x, int y);
 
 	Node* Search(Node* node, int key);
