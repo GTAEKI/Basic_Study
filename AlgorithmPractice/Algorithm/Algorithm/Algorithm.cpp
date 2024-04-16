@@ -12,6 +12,9 @@ using namespace std;
 // Quick Sort
 // Merge Sort와 마찬가지로 둘씩 쪼개서 진행하는것까지는 비슷하다.
 // 단, 어느정도 특정 알고리즘을 적용시켜 무엇인가를 한 뒤 나눈다는 점이 다르다.
+// 최악의 경우 O(N^2) 이 될 수 있음
+// O(NlogN) -> 평균적으로
+// 최악의 경우 느린 시간복잡도를 갖고있지만 데이터를 복사하는 내용이 거의 없기에 평균적으로 병합정렬보다 빠르게 동작한다.
 
 int Partition(vector<int>& v, int left, int right)
 {
@@ -19,6 +22,7 @@ int Partition(vector<int>& v, int left, int right)
 	int low = left + 1;
 	int high = right;
 
+	// O(N)
 	while (low <= high)
 	{
 		while (low <= right && pivot >= v[low])
@@ -76,10 +80,10 @@ void QuickSort2(vector<int>& v, int left, int right)
 
 	while (low <= high)
 	{
-		while (low <= right && pivot > v[low] )
+		while (low <= right && pivot >= v[low] )
 			low++;
 
-		while (high >= left + 1 && pivot < v[high])
+		while (high >= left + 1 && pivot <= v[high])
 			high--;
 
 		if (low < high) // 선을 넘어갔을 수 있음
@@ -95,9 +99,38 @@ void QuickSort2(vector<int>& v, int left, int right)
 	v[high] = temp;
 
 
-	QuickSort(v, left, high - 1);
-	QuickSort(v, high + 1, right);
+	QuickSort2(v, left, high - 1);
+	QuickSort2(v, high + 1, right);
 }
+
+void QuickSort3(vector<int>& v, int left, int right)
+{
+	if (left >= right) return;
+
+	int pivot = v[left];
+	int low = left + 1;
+	int high = right;
+
+	while (low <= high) 
+	{
+		while (low <= right && pivot >= v[low])
+			low++;
+
+		while (high >= left+1 && pivot <= v[high])
+			high--;
+
+		if (low < high) 
+		{
+			swap(v[low], v[high]);
+		}
+	}
+
+	swap(v[left], v[high]);
+
+	QuickSort3(v, left, high - 1);
+	QuickSort3(v, high + 1, right);
+}
+
 
 int main()
 {
@@ -168,7 +201,7 @@ int main()
 	//MergeSort2(v, 0, v.size() - 1);
 	//HeapSort2(v);
 
-	QuickSort2(v, 0, v.size() - 1);
+	QuickSort3(v, 0, v.size() - 1);
 
 	return 0;
 }
