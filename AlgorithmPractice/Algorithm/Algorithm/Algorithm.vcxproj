@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
+    <ClInclude Include="BasicSort.h" />
     <ClInclude Include="BfsDfs.h" />
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="BinarySearchTree.h" />

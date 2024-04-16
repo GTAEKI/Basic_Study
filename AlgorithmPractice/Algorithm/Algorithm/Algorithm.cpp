@@ -6,6 +6,9 @@
 #include<thread>
 using namespace std;
 
+#include"BasicSort.h"
+
+
 int main()
 {
 #pragma region 실행부
@@ -58,6 +61,11 @@ int main()
 	this_thread::sleep_for(1s);*/
 #pragma endregion
 
+	vector<int> v{ 1,5,3,4,2 };
+
+	//BubbleSort(v);
+	//SelectionSort(v);
+	InsertionSort(v);
 
 	return 0;
 }
