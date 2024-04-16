@@ -74,5 +74,8 @@
     <ClInclude Include="BasicSort.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HeapSortMergeSort.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
