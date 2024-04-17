@@ -236,10 +236,10 @@ void Player::AStar()
 	// 이동 비용
 	int32 cost[] =
 	{
-		10, // UP
-		10, // LEFT
-		10, // DOWN
-		10, // RIGHT
+		10, // UP    
+		10, // LEFT  
+		10, // DOWN  
+		10, // RIGHT 
 		14, // 대각선
 		14,
 		14,
