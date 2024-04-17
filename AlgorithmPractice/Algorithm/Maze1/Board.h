@@ -15,17 +15,7 @@ enum class TileType
 	WALL,
 };
 
-struct CostEdge 
-{
-	int cost;
-	Pos u;
-	Pos v;
 
-	bool operator<(CostEdge& other) 
-	{
-		return cost < other.cost;
-	}
-};
 
 class Board
 {
@@ -36,7 +26,8 @@ public:
 	void Init(int32 size, Player* player);
 	void Render();
 
-	void GenerateMap();
+	void GenerateMap_Kruskal();
+	void GenerateMap_Prim();
 
 	// 좀 더 편하게관리하기 위한 함수 
 	TileType GetTileType(Pos pos); // 어떤 타일이 있는지 체크
