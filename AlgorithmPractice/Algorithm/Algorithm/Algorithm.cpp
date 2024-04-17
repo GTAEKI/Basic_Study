@@ -6,69 +6,6 @@
 #include<thread>
 using namespace std;
 
-// 상호 배타적 집합(Disjoint Set)
-// -> 유니온 - 파인드 Union-Find (합치기 - 찾기)
-
-// 게임회사에서 프로그래머로 일하고 있는데
-// 오늘부터 Lineage Battleground (혼종!)
-// 혈맹전 + 서바이벌
-// 1인 팀 1000명 (팀 id 0~999)
-// 동맹(1번팀 + 2번팀 = 1번팀)
-
-// 트리 구조를 이용한 상호 배타적 집합의 표현
-// [0] [1] [2] [3] [4] [5]
-struct Node 
-{
-	Node* leader;
-};
-
-// 조직 폭력배 구조도
-// [1]  [3]               [3]
-// [2]  [4][5]   ->    [4][5][1]
-//      [0]			   [0]	 [2]
-
-// 시간 복잡도 : 트리의 높이에 비례한 시간이 걸림
-// 그런데 균형잡힌 트리가 아니기 때문에 트리 모양이 어떻게 될지 알 수가 없음
-// Find가 재귀이기때문에 한쪽으로만 쭈욱 늘어지게 되면 빠르게 써칭하는 역할을 잃어버린다.
-class NaiveDisjointSet // 순진하게구현
-{
-public:
-	NaiveDisjointSet(int n) : _parent(n) 
-	{
-		for (int i = 0; i < n; i++)
-			_parent[i] = i;
-	}
-
-	// 니 대장이 누구니?
-	int Find(int u) 
-	{
-		if (u == _parent[u])
-			return u;
-
-		return Find(_parent[u]);
-	}
-
-	// u와 v를 합친다 (일단 u가 v 밑으로)
-	void Merge(int u, int v) 
-	{
-		u = Find(u);
-		v = Find(v);
-
-		if (u == v) return; // 같은 대장
-
-		_parent[u] = v; // 이진트리는 아닐수있음
-	}
-
-private:
-	vector<int> _parent;
-
-};
-
-// 예방 방법 1 (Union - By - Rank : 랭크에 의한 합치기 최적화, 여기서 랭크는 높이를 말한다.)
-// 트리가 한쪽으로 기우는 문제 해결
-// 트리를 합칠 때, 항상 [높이가 낮은 트리]를 [높이가 높은 트리] 밑으로 넣는게 어떨까?
-
-// 시간 복잡도 O(Ackermann(n)) = O(1)
 class DisjointSet
 {
 public:
@@ -111,6 +48,84 @@ private:
 	vector<int> _rank;
 
 };
+
+struct Vertex 
+{
+	// int data;
+};
+
+vector<Vertex> vertices;
+vector<vector<int>> adjacent; // 인접 행렬
+
+void CreateGraph() 
+{
+	vertices.resize(6);
+	adjacent = vector<vector<int>>(6, vector<int>(6, -1));
+
+	adjacent[0][1] = adjacent[1][0] = 15;
+	adjacent[0][3] = adjacent[3][0] = 35;
+	adjacent[1][2] = adjacent[2][1] = 5;
+	adjacent[1][3] = adjacent[3][1] = 10;
+	adjacent[3][4] = adjacent[4][3] = 5;
+	adjacent[3][5] = adjacent[5][3] = 10;
+	adjacent[5][4] = adjacent[4][5] = 5;
+}
+
+// 크루스칼이 뱉어주는 값은 최종적으로 계산한 코스트의 합을 뱉어줄 것인데
+// 어떠한 간선들로 이루어져야 하는지 골라줘야 하니 만든 스트럭트
+struct CostEdge 
+{
+	int cost;
+	int u;
+	int v;
+
+	bool operator<(CostEdge& other)  // 비교를 위함
+	{
+		return cost < other.cost;
+	}
+};
+
+int Kruskal(vector<CostEdge>& selected)  // 연결된 애들은 selected에 반환, 최종 코스트는 int에 return
+{
+	int ret = 0;
+
+	selected.clear();
+
+	vector<CostEdge> edges;
+
+	for (int u = 0; u < adjacent.size(); u++)
+	{
+		for (int v = 0; v < adjacent[u].size(); v++)
+		{
+			if (u > v) // 양방향 간선 추가 방지
+				continue;
+
+			int cost = adjacent[u][v];
+			if (cost == -1)
+				continue;
+
+			edges.push_back(CostEdge{ cost, u, v });
+		}
+	}
+
+	std::sort(edges.begin(), edges.end());
+
+	DisjointSet sets(vertices.size()); // 처음에는 다 각기 독립적인 그룹이 될것인데
+
+	for (CostEdge& edge : edges) 
+	{
+		//같은 그룹이면 스킵 (안그러면 사이클 발생)
+		if (sets.Find(edge.u) == sets.Find(edge.v))
+			continue;
+
+		// 두 그룹을 합친다
+		sets.Merge(edge.u, edge.v);
+		selected.push_back(edge);
+		ret += edge.cost;
+	}
+
+	return ret;
+}
 
 int main()
 {
@@ -182,9 +197,8 @@ int main()
 	//HeapSort2(v);
 	//QuickSort3(v, 0, v.size() - 1);
 
-#pragma endregion
-
-	DisjointSet teams(1000);
+	// Disjoint Set
+	/*DisjointSet teams(1000);
 
 	teams.Merge(10, 1);
 
@@ -197,8 +211,15 @@ int main()
 
 	teams.Merge(1, 3);
 	int teamId5 = teams.Find(1);
-	int teamId6 = teams.Find(3);
+	int teamId6 = teams.Find(3);*/
+#pragma endregion
+	CreateGraph();
+
+	vector<CostEdge> selected;
+
+	int cost = Kruskal(selected);
 	
+
 
 	return 0;
 }
