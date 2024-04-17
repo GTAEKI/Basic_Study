@@ -6,38 +6,37 @@
 #include<thread>
 using namespace std;
 
-class DisjointSet
+class DisjoinSet 
 {
 public:
-	DisjointSet(int n) : _parent(n), _rank(n, 1)
+	DisjoinSet(int n) :_parent(n), _rank(n, 1)
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++) 
+		{
 			_parent[i] = i;
+		}
 	}
 
-	// 니 대장이 누구니?
-	int Find(int u)
+	int Find(int u) 
 	{
 		if (u == _parent[u])
 			return u;
 
-		return _parent[u] = Find(_parent[u]); // 대장을 찾았다면, 바로 부모를 대장으로 변경, 타고타고를 없애주는 최적화
+		return _parent[u] = Find(_parent[u]);
 	}
 
-	// u와 v를 합친다.
-	void Merge(int u, int v)
+	void Merge(int u, int v) 
 	{
 		u = Find(u);
 		v = Find(v);
 
-		if (u == v) return; // 같은 대장
+		if (u == v) // 부모가 같다면 병합 x
+			return;
 
 		if (_rank[u] > _rank[v])
 			swap(u, v);
 
-		// 여기까지 오면 rank[u] <= rank[v] 가 보장됨
-
-		_parent[u] = v; // 이진트리는 아닐수있음
+		_parent[u] = v;
 
 		if (_rank[u] == _rank[v])
 			_rank[v]++;
@@ -46,16 +45,15 @@ public:
 private:
 	vector<int> _parent;
 	vector<int> _rank;
-
 };
 
 struct Vertex 
 {
-	// int data;
+	//int data;
 };
 
 vector<Vertex> vertices;
-vector<vector<int>> adjacent; // 인접 행렬
+vector<vector<int>> adjacent;
 
 void CreateGraph() 
 {
@@ -71,21 +69,19 @@ void CreateGraph()
 	adjacent[5][4] = adjacent[4][5] = 5;
 }
 
-// 크루스칼이 뱉어주는 값은 최종적으로 계산한 코스트의 합을 뱉어줄 것인데
-// 어떠한 간선들로 이루어져야 하는지 골라줘야 하니 만든 스트럭트
 struct CostEdge 
 {
 	int cost;
 	int u;
 	int v;
 
-	bool operator<(CostEdge& other)  // 비교를 위함
+	bool operator <(const CostEdge& other)
 	{
 		return cost < other.cost;
 	}
 };
 
-int Kruskal(vector<CostEdge>& selected)  // 연결된 애들은 selected에 반환, 최종 코스트는 int에 return
+int Kruskal(vector<CostEdge>& selected)
 {
 	int ret = 0;
 
@@ -93,16 +89,14 @@ int Kruskal(vector<CostEdge>& selected)  // 연결된 애들은 selected에 반�
 
 	vector<CostEdge> edges;
 
-	for (int u = 0; u < adjacent.size(); u++)
+	for (int u = 0; u < adjacent.size(); u++) 
 	{
-		for (int v = 0; v < adjacent[u].size(); v++)
+		for (int v = 0; v < adjacent[u].size(); v++) 
 		{
-			if (u > v) // 양방향 간선 추가 방지
-				continue;
+			if (u > v) continue;
 
 			int cost = adjacent[u][v];
-			if (cost == -1)
-				continue;
+			if (cost == -1) continue;
 
 			edges.push_back(CostEdge{ cost, u, v });
 		}
@@ -110,15 +104,13 @@ int Kruskal(vector<CostEdge>& selected)  // 연결된 애들은 selected에 반�
 
 	std::sort(edges.begin(), edges.end());
 
-	DisjointSet sets(vertices.size()); // 처음에는 다 각기 독립적인 그룹이 될것인데
+	DisjoinSet sets(vertices.size());
 
 	for (CostEdge& edge : edges) 
 	{
-		//같은 그룹이면 스킵 (안그러면 사이클 발생)
 		if (sets.Find(edge.u) == sets.Find(edge.v))
 			continue;
 
-		// 두 그룹을 합친다
 		sets.Merge(edge.u, edge.v);
 		selected.push_back(edge);
 		ret += edge.cost;
