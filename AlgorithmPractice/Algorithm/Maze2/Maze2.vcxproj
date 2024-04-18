@@ -29,8 +29,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f258f9e0-fada-4479-9d05-f2cea49e5de9}</ProjectGuid>
-    <RootNamespace>Algorithm</RootNamespace>
+    <ProjectGuid>{e29f8efa-23b8-419e-94f9-c22494dd8508}</ProjectGuid>
+    <RootNamespace>Maze2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -182,26 +182,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Algorithm.cpp" />
-    <ClCompile Include="BinarySearchTree.cpp" />
-    <ClCompile Include="RedBlackTree.cpp" />
+    <ClCompile Include="ConsoleHelper.cpp" />
+    <ClCompile Include="Maze2.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">pch.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base.h" />
-    <ClInclude Include="BasicSort.h" />
-    <ClInclude Include="BfsDfs.h" />
-    <ClInclude Include="BinarySearch.h" />
-    <ClInclude Include="BinarySearchTree.h" />
-    <ClInclude Include="Dynamic_Programming.h" />
-    <ClInclude Include="HashTable.h" />
-    <ClInclude Include="AdvancedSort.h" />
-    <ClInclude Include="Kruskal_MST.h" />
-    <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="PriorityQueue.h" />
-    <ClInclude Include="RedBlackTree.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="Dijkstra.h" />
-    <ClInclude Include="Tree.h" />
+    <ClInclude Include="ConsoleHelper.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
