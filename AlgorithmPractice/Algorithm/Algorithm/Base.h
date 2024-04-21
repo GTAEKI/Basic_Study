@@ -26,12 +26,12 @@ class Iterator
 public:
 	Iterator() :_node(nullptr)
 	{
-	
+		
 	}
 
 	Iterator(Node<T>* node) : _node(node)
 	{
-	
+		
 	}
 
 public:
