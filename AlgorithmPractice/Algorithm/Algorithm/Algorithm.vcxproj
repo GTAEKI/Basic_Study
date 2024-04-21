@@ -203,7 +203,6 @@
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
