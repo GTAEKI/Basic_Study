@@ -9,6 +9,7 @@ using namespace std;
 
 #include"LinkedList2.h"
 #include"PriorityQueue2.h"
+#include"Sort_Total.h"
 
 int main()
 {
@@ -88,23 +89,37 @@ int main()
 	//cout << l3.size() << endl;
 
 
-	PriorityQueue<int, vector<int>, greater<int>> pq;
+	//PriorityQueue<int, vector<int>, greater<int>> pq;
 
-	priority_queue<int> pqq;
+	//priority_queue<int> pqq;
 
-	pq.push(100);
-	pq.push(300);
-	pq.push(200);
-	pq.push(500);
-	pq.push(400);
+	//pq.push(100);
+	//pq.push(300);
+	//pq.push(200);
+	//pq.push(500);
+	//pq.push(400);
 
 
-	while (pq.empty() == false)
+	//while (pq.empty() == false)
+	//{
+	//	int value = pq.top();
+	//	pq.pop();
+
+	//	cout << value << endl;
+	//}
+
+	vector<int> v{1,3,2,4,9,6,7,5};
+
+	//BubbleSort(v);
+	//SelectionSort(v);
+	//InsertionSort(v);
+	//HeapSort(v);
+	//MergeSort(v, 0, v.size()-1);
+	QuickSort(v, 0, v.size() - 1);
+
+	for (auto num : v) 
 	{
-		int value = pq.top();
-		pq.pop();
-
-		cout << value << endl;
+		cout << num << endl;
 	}
 
 	return 0;
