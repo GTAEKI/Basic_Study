@@ -7,7 +7,7 @@
 #include<Windows.h>
 using namespace std;
 
-#include"LinkedList3.h"
+#include"LinkedList2.h"
 
 int main()
 {
@@ -64,7 +64,27 @@ int main()
 
 	l3.pop_back();
 
-	cout << l3.size();
+	LinkedList<int> ::iterator iter2 = l3.begin();
+	iter2++;
+	l3.insert(iter2, 999);
+
+	for (auto iter = l3.begin(); iter != l3.end(); iter++)
+	{
+		cout << "추가: " << *iter << endl;
+	}
+
+
+	cout << l3.size() << endl;
+
+	l3.erase(iter2);
+
+
+	for (auto iter = l3.begin(); iter != l3.end(); iter++)
+	{
+		cout << "추가2: " << *iter << endl;
+	}
+
+	cout << l3.size() << endl;
 
 	return 0;
 }

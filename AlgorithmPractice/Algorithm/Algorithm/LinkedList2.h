@@ -1,17 +1,17 @@
 #pragma once
 
-template<typename T>
+template <typename T>
 class Node 
 {
 public:
-	Node() : _next(nullptr),_prev(nullptr), _data(T())
+	Node():_next(nullptr), _prev(nullptr),_data(T())
 	{
-		
+	
 	}
 
-	Node(const T& value) : _next(nullptr), _prev(nullptr), _data(value)
+	Node(const T& data) :_next(nullptr), _prev(nullptr), _data(data)
 	{
-		
+	
 	}
 
 public:
@@ -20,46 +20,56 @@ public:
 	T _data;
 };
 
-template<typename T>
+template <typename T>
 class Iterator 
 {
 public:
-	Iterator() : _node(nullptr)
-	{
-		
-	}
-
-	Iterator(Node<T>* node) : _node(node)
+	Iterator() :_node(nullptr)
 	{
 	
 	}
 
-	Iterator operator++(int)
+	Iterator(Node<T>* node):_node(node)
 	{
-		Iteator<T> temp = *this;
-		_node = _node->next;
+	
+	}
+
+	//i++
+	Iterator operator++(int) 
+	{
+		Iterator temp = *this;
+		_node = _node->_next;
 		return temp;
 	}
 
-	Iterator& operator++()
+	//++i
+	Iterator& operator++() 
 	{
 		_node = _node->_next;
 		return *this;
 	}
 
-	Iterator operator--(int)
+	//i--
+	Iterator operator--(int) 
 	{
-		Iterator<T> temp = *this;
+		Iterator temp = *this;
 		_node = _node->_prev;
 		return temp;
 	}
 
-	bool operator==(const Iterator& other)
+	//--i
+	Iterator& operator--() 
+	{
+		_node = _node->_prev;
+		return *this;
+	}
+
+	bool operator ==(const Iterator& other) 
 	{
 		return _node == other._node;
 	}
 
-	bool operator!=(const Iterator& other)
+	bool operator != (const Iterator& other) 
 	{
 		return _node != other._node;
 	}
@@ -73,13 +83,13 @@ public:
 	Node<T>* _node;
 };
 
-template<typename T>
+template <typename T>
 class LinkedList 
 {
 public:
 	using iterator = Iterator<T>;
 
-	LinkedList() : _size(0)
+	LinkedList() :_size(0)
 	{
 		_head = new Node<T>();
 		_tail = new Node<T>();
@@ -90,21 +100,13 @@ public:
 
 	~LinkedList() 
 	{
-		while (_size > 0)
-			pup_back();
-
 		delete _head;
 		delete _tail;
 	}
 
-	void push_back(const T& value) 
+	void push_back(const T& value)
 	{
 		AddNode(_tail, value);
-	}
-
-	void size() 
-	{
-		return _size;
 	}
 
 	void pop_back() 
@@ -112,33 +114,43 @@ public:
 		DeleteNode(_tail->_prev);
 	}
 
-	iterator Insert(iterator iter, const T& value) 
+	iterator begin() 
+	{
+		return iterator(_head->_next);
+	}
+
+	iterator end() 
+	{
+		return iterator(_tail);
+	}
+
+	iterator insert(const iterator& iter, const T& value)
 	{
 		Node<T>* node = AddNode(iter._node, value);
 		return iterator(node);
 	}
 
-	iterator erase(iterator iter)
+	iterator erase(iterator& iter) 
 	{
-		Node<T>* node = RemoveNode(iter._node);
+		Node<T>* node = DeleteNode(iter._node);
 		return iterator(node);
 	}
 
-	iterator begin()
+	int size() 
 	{
-		return iterator(_head->_next);
+		return _size;
 	}
 
-	iterator end()
+	bool empty() 
 	{
-		return iterator(_tail);
+		return _size == 0;
 	}
 
 private:
-	Node<T>* AddNode(Node<T>& nextNode,const T& value) 
+	Node<T>* AddNode(Node<T>* nextNode, const T& value) 
 	{
-		Node<T> newNode = new Node<T>(value);
-		Node<T> prevNode = nextNode->_prev;
+		Node<T>* newNode = new Node<T>(value);
+		Node<T>* prevNode = nextNode->_prev;
 
 		newNode->_prev = prevNode;
 		prevNode->_next = newNode;
@@ -150,19 +162,22 @@ private:
 		return newNode;
 	}
 
-	Node<T>* DeleteNode(Node<T>& deleteNode) 
+	Node<T>* DeleteNode(Node<T>* deleteNode) 
 	{
-		Node<T> nextNode = deleteNode->_next;
-		Node<T> prevNode = deleteNode->_prev;
+		Node<T>* nextNode = deleteNode->_next;
+		Node<T>* prevNode = deleteNode->_prev;
 
 		nextNode->_prev = prevNode;
 		prevNode->_next = nextNode;
 
 		delete deleteNode;
-
 		_size--;
+
 		return nextNode;
 	}
+
+
+
 
 private:
 	Node<T>* _head;

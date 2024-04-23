@@ -198,14 +198,11 @@
     <ClInclude Include="Kruskal_MST.h" />
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedList2.h" />
-    <ClInclude Include="LinkedList3.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="Tree.h" />
-    <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
