@@ -199,6 +199,7 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedList2.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="PriorityQueue2.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Dijkstra.h" />

@@ -8,6 +8,7 @@
 using namespace std;
 
 #include"LinkedList2.h"
+#include"PriorityQueue2.h"
 
 int main()
 {
@@ -50,41 +51,61 @@ int main()
 	//cout << v3.size() << v3.capacity() << endl;
 #pragma endregion
 
-	LinkedList<int> l3;
+	//LinkedList<int> l3;
 
-	l3.push_back(3);
-	l3.push_back(4);
-	l3.push_back(5);
-	l3.push_back(6);
+	//l3.push_back(3);
+	//l3.push_back(4);
+	//l3.push_back(5);
+	//l3.push_back(6);
 
-	for (auto iter = l3.begin(); iter != l3.end(); iter++) 
+	//for (auto iter = l3.begin(); iter != l3.end(); iter++) 
+	//{
+	//	cout << *iter << endl;
+	//}
+
+	//l3.pop_back();
+
+	//LinkedList<int> ::iterator iter2 = l3.begin();
+	//iter2++;
+	//l3.insert(iter2, 999);
+
+	//for (auto iter = l3.begin(); iter != l3.end(); iter++)
+	//{
+	//	cout << "추가: " << *iter << endl;
+	//}
+
+
+	//cout << l3.size() << endl;
+
+	//l3.erase(iter2);
+
+
+	//for (auto iter = l3.begin(); iter != l3.end(); iter++)
+	//{
+	//	cout << "추가2: " << *iter << endl;
+	//}
+
+	//cout << l3.size() << endl;
+
+
+	PriorityQueue<int, vector<int>, greater<int>> pq;
+
+	priority_queue<int> pqq;
+
+	pq.push(100);
+	pq.push(300);
+	pq.push(200);
+	pq.push(500);
+	pq.push(400);
+
+
+	while (pq.empty() == false)
 	{
-		cout << *iter << endl;
+		int value = pq.top();
+		pq.pop();
+
+		cout << value << endl;
 	}
-
-	l3.pop_back();
-
-	LinkedList<int> ::iterator iter2 = l3.begin();
-	iter2++;
-	l3.insert(iter2, 999);
-
-	for (auto iter = l3.begin(); iter != l3.end(); iter++)
-	{
-		cout << "추가: " << *iter << endl;
-	}
-
-
-	cout << l3.size() << endl;
-
-	l3.erase(iter2);
-
-
-	for (auto iter = l3.begin(); iter != l3.end(); iter++)
-	{
-		cout << "추가2: " << *iter << endl;
-	}
-
-	cout << l3.size() << endl;
 
 	return 0;
 }
