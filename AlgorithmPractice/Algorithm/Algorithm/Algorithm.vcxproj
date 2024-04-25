@@ -189,7 +189,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="BasicSort.h" />
-    <ClInclude Include="PriorityQueue3.h" />
+    <ClInclude Include="SortTotal2.h" />
     <ClInclude Include="Sort_Total.h" />
     <ClInclude Include="BfsDfs.h" />
     <ClInclude Include="BinarySearch.h" />
@@ -201,7 +201,6 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="LinkedList2.h" />
     <ClInclude Include="PriorityQueue.h" />
-    <ClInclude Include="PriorityQueue2.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Dijkstra.h" />

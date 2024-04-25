@@ -74,13 +74,10 @@
     <ClInclude Include="LinkedList2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueue2.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Sort_Total.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PriorityQueue3.h">
+    <ClInclude Include="SortTotal2.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
