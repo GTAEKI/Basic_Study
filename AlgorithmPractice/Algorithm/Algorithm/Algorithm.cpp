@@ -9,7 +9,7 @@ using namespace std;
 
 #include"LinkedList2.h"
 #include"PriorityQueue.h"
-#include"SortTotal2.h"
+#include"SortTotal3.h"
 
 int main()
 {

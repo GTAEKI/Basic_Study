@@ -190,6 +190,7 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="BasicSort.h" />
     <ClInclude Include="SortTotal2.h" />
+    <ClInclude Include="SortTotal3.h" />
     <ClInclude Include="Sort_Total.h" />
     <ClInclude Include="BfsDfs.h" />
     <ClInclude Include="BinarySearch.h" />
