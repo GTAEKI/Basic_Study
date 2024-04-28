@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="BasicSort.h" />
+    <ClInclude Include="BfsDfs2.h" />
     <ClInclude Include="PriorityQueue2.h" />
     <ClInclude Include="Sort2.h" />
     <ClInclude Include="Sort_Total.h" />
