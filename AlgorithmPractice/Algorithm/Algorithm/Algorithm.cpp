@@ -7,9 +7,35 @@
 #include<Windows.h>
 using namespace std;
 
-#include"LinkedList2.h"
-#include"PriorityQueue2.h"
-#include"Sort2.h"
+vector<int> seq;
+int cache[100];
+
+int LIS(int pos) 
+{
+	// 기저 사항 - 없을 수도 있음
+	/*if (pos == seq.size() - 1)
+		return 1;*/
+	
+	// 캐시 확인
+	int& ret = cache[pos];
+	if (ret != -1)
+		return ret;
+
+	// LIS(0) = LIS(1) +1
+	// LIS(1) = 1
+
+	// 구하기
+	ret = 1; // 최소 seq[pos]는 있으니 1부터 시작
+
+	for (int next = pos + 1; next < seq.size(); next++) 
+	{
+		if (seq[pos] < seq[next])
+			ret = max(ret, 1 + LIS(next));
+	}
+
+	return ret;
+
+}
 
 int main()
 {
@@ -50,8 +76,8 @@ int main()
 	//v3.clear();
 
 	//cout << v3.size() << v3.capacity() << endl;
-#pragma endregion
-
+	
+	
 	//LinkedList<int> l3;
 
 	//l3.push_back(3);
@@ -106,19 +132,32 @@ int main()
 	//	cout << value << endl;
 	//}
 
-	vector<int> v{1,3,2,4,9,6,7,5,8};
+	//vector<int> v{1,3,2,4,9,6,7,5,8};
 
-	//BubbleSort<int>(v,greater<int>());
-	//SelectionSort(v);
-	//InsertionSort(v);
-	//HeapSort(v);
-	MergeSort(v, 0, v.size()-1);
-	//QuickSort(v, 0, v.size() - 1);
+	////BubbleSort<int>(v,greater<int>());
+	////SelectionSort(v);
+	////InsertionSort(v);
+	////HeapSort(v);
+	//MergeSort(v, 0, v.size()-1);
+	////QuickSort(v, 0, v.size() - 1);
 
-	for (auto num : v) 
+	//for (auto num : v) 
+	//{
+	//	cout << num << endl;
+	//}
+#pragma endregion
+
+	::memset(cache, -1, sizeof(cache));
+
+	seq = vector<int>{1,9,2,5,7};
+
+	int ret = 0;
+	for (int i = 0; i < seq.size(); i++) 
 	{
-		cout << num << endl;
+		ret = max(ret, LIS(i));
 	}
+
+	cout << ret;
 
 	return 0;
 }
