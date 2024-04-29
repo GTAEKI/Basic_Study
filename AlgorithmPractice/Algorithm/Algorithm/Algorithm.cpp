@@ -7,6 +7,27 @@
 #include<Windows.h>
 using namespace std;
 
+vector<int> seq;
+int cache[100];
+
+int LIS(int pos) 
+{
+	int& ret = cache[pos];
+	if (ret != -1)
+		return ret;
+
+	ret = 1;
+	for (int i = pos+1; i < seq.size(); i++) 
+	{
+		if (seq[pos] < seq[i]) 
+		{
+			ret = max(ret, LIS(i) + 1);
+		}
+	}
+
+	return ret;
+}
+
 int main()
 {
 #pragma region MyRegion
@@ -116,6 +137,20 @@ int main()
 	//	cout << num << endl;
 	//}
 #pragma endregion
+
+	::memset(cache, -1, sizeof(cache));
+
+	seq = vector<int>{ 1,9,2,5,7 };
+
+	int ret = 0;
+	for (int pos = 0; pos < seq.size(); pos++) 
+	{
+		ret = max(ret, LIS(pos));
+	}
+
+	cout << ret;
+
+	return 0;
 
 }
 
