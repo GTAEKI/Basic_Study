@@ -7,26 +7,20 @@
 #include<Windows.h>
 using namespace std;
 
-vector<int> seq;
+// TRIANGLE_PATH
+// - (0,0) 부터 시작해서 아래 or 아래우측으로 이동 가능
+// - 만나는 숫자를 모두 더함
+// - 더한 숫자가 최대가 되는 경로 ? 합?
+// 
+// 6
+// 1 2
+// 3 7 4
+// 9 4 1 7
+// 2 7 5 9 4
+
+vector<vector<int>> board;
 int cache[100];
-
-int LIS(int pos) 
-{
-	int& ret = cache[pos];
-	if (ret != -1)
-		return ret;
-
-	ret = 1;
-	for (int i = pos+1; i < seq.size(); i++) 
-	{
-		if (seq[pos] < seq[i]) 
-		{
-			ret = max(ret, LIS(i) + 1);
-		}
-	}
-
-	return ret;
-}
+int N;
 
 int main()
 {
@@ -138,18 +132,19 @@ int main()
 	//}
 #pragma endregion
 
-	::memset(cache, -1, sizeof(cache));
-
-	seq = vector<int>{ 1,9,2,5,7 };
-
-	int ret = 0;
-	for (int pos = 0; pos < seq.size(); pos++) 
+	board = vector<vector<int>>
 	{
-		ret = max(ret, LIS(pos));
-	}
+		{6},
+		{1,2},
+		{3,7,4},
+		{9,4,1,7,},
+		{2,7,5,9,4}
+	};
 
-	cout << ret;
+	N = 5;
 
+
+	
 	return 0;
 
 }

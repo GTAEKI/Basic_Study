@@ -31,7 +31,6 @@ int LIS(int pos)
 	}
 
 	return ret;
-
 }
 
 //int main()
