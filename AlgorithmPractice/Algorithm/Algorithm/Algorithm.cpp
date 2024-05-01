@@ -19,8 +19,41 @@ using namespace std;
 // 2 7 5 9 4
 
 vector<vector<int>> board;
-int cache[100];
+int cache[100][100];
+vector<vector<int>> nextX;
 int N;
+
+vector<vector<int>> cache2;
+
+int path(int y, int x)
+{
+	// 기저 사항
+	/*if (y == N - 1)
+		return board[y][x];*/
+	if (y == N)
+		return 0;
+
+	// 캐시 확인
+	int& ret = cache[y][x];
+	if (ret != -1)
+		return ret;
+
+	// 적용
+	/*board[y][x] + path(y + 1, x);
+	board[y][x] + path(y + 1, x + 1);*/
+	
+	// 경로 기록
+	{
+		int nextBottom = path(y + 1, x);
+		int nextBottomRight = path(y + 1, x + 1);
+		if (nextBottom > nextBottomRight)
+			nextX[y][x] = x;
+		else
+			nextX[y][x] = x + 1;
+	}
+
+	return ret = board[y][x] + max(path(y + 1, x), path(y + 1, x + 1));
+}
 
 int main()
 {
@@ -61,8 +94,8 @@ int main()
 	//v3.clear();
 
 	//cout << v3.size() << v3.capacity() << endl;
-	
-	
+
+
 	//LinkedList<int> l3;
 
 	//l3.push_back(3);
@@ -141,10 +174,26 @@ int main()
 		{2,7,5,9,4}
 	};
 
-	N = 5;
+	N = board.size();
+	memset(cache, -1, sizeof(cache));
+	cache2 = vector < vector<int>>(N, vector<int>(N, -1));
+	nextX = vector<vector<int>>(N, vector<int>(N));
+	int ret = path(0, 0);
 
+	cout << ret << endl;
 
-	
+	// 경로 만들기
+	int y = 0;
+	int x = 0;
+
+	while (y < N) 
+	{
+		cout << board[y][x] << "->";
+
+		x = nextX[y][x];
+		y++;
+	}
+
 	return 0;
 
 }
