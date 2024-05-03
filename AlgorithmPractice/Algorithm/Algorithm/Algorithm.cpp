@@ -21,25 +21,23 @@ using namespace std;
 // Q) 생성되는 모든 신발 정보가 주어졌을 때, (T)초 동안 갈 수 있는 최대 거리를 구하라.
 //
 
+
 struct Shoe 
 {
-	Shoe(int a,int b, int c, int d) 
+	Shoe(int a, int b, int c, int d):time(a),start(a+b),end(a+b+c),speed(d)
 	{
-		time = a;
-		start = a + b;
-		end = a + b + c;
-		speed = d;
 	}
 
-	int time; // a 신발 스폰시간
-	int start; // a + b (신발 효과 시작시간)
-	int end; // a+b+c (신발 효과 끝나는 시간)
-	int speed; // d (신발 속도)
+	int time;
+	int start;
+	int end;
+	int speed;
 };
 
 int T;
 vector<Shoe> shoes;
 vector<int> cache;
+
 
 // input.txt
 // 20
@@ -48,31 +46,10 @@ vector<int> cache;
 // 4 1 4 2
 // 10 2 5 5 
 // 15 1 3 7
-//
 
-//int Solve(int time, int speed) 
-//{
-//	// 기저사례
-//	if (time == T)
-//		return cache[time];
-//
-//	// 캐시
-//	int& ret = cache[time];
-//	if (ret != -1)
-//		return ret;
-//
-//	// 문제풀이
-//	for (int i = 0; i < shoes.size(); i++) 
-//	{
-//		if (time == shoes[i].time)
-//			Solve(shoes[i].start, shoes[i].speed);
-//	}
-//}
-
-// now번 신발을 신고 갈 수 있는 최대 거리를 반환
 int Solve(int now) 
 {
-	// 기저사례
+	// 기저사항
 	if (now >= shoes.size())
 		return 0;
 
@@ -83,29 +60,24 @@ int Solve(int now)
 
 	// 적용
 	Shoe& shoe = shoes[now];
-
-	// 신발 신고 이동한 거리 + 걸어서 이동한 거리
 	int dist = (shoe.end - shoe.start) * shoe.speed + (T - shoe.end) * 1;
 	ret = max(ret, dist);
 
-	// 다른 신발도 하나씩 신어본다.
 	for (int next = now + 1; next < shoes.size(); next++) 
 	{
 		Shoe& nextShoe = shoes[next];
+
 		if (nextShoe.time < shoe.start)
 			continue;
 
-		// 다음 신발까지 이동 거리
 		int moveDist = 0;
-		// 현재 신발 효과가 끝나기 전에 다음 신발이 스폰 됨
 		if (nextShoe.time <= shoe.end) 
 		{
-			moveDist = (nextShoe.time - shoe.start) * shoe.speed; // 신발 신고 이동
+			moveDist = (nextShoe.time - shoe.start) * shoe.speed;
 		}
 		else 
 		{
-			moveDist = (shoe.end - shoe.start) * shoe.speed; // 신발 신고 이동
-			moveDist += (nextShoe.time - shoe.end) * 1; // 나머지 부분 걸어서 이동
+			moveDist = (shoe.end - shoe.start) * shoe.speed + (nextShoe.time - shoe.end) * 1;
 		}
 
 		ret = max(ret, moveDist + Solve(next));
