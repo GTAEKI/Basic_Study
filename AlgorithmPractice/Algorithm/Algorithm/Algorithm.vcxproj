@@ -192,6 +192,7 @@
     <ClInclude Include="BfsDfs2.h" />
     <ClInclude Include="Dijkstra2.h" />
     <ClInclude Include="DP_LIS.h" />
+    <ClInclude Include="DP_TICTAETOE.h" />
     <ClInclude Include="DP_TRIANGLE_PATH.h" />
     <ClInclude Include="PriorityQueue2.h" />
     <ClInclude Include="Sort2.h" />
