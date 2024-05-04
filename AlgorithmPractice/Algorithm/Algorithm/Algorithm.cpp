@@ -21,11 +21,11 @@ using namespace std;
 // Q) 생성되는 모든 신발 정보가 주어졌을 때, (T)초 동안 갈 수 있는 최대 거리를 구하라.
 //
 
-
-struct Shoe 
+struct Shoe
 {
-	Shoe(int a, int b, int c, int d):time(a),start(a+b),end(a+b+c),speed(d)
+	Shoe(int a, int b, int c, int d) : time(a), start(a + b), end(a + b + c), speed(d)
 	{
+
 	}
 
 	int time;
@@ -35,9 +35,8 @@ struct Shoe
 };
 
 int T;
-vector<Shoe> shoes;
 vector<int> cache;
-
+vector<Shoe> shoes;
 
 // input.txt
 // 20
@@ -49,17 +48,16 @@ vector<int> cache;
 
 int Solve(int now) 
 {
-	// 기저사항
 	if (now >= shoes.size())
 		return 0;
 
-	// 캐시
+	// cache
 	int& ret = cache[now];
 	if (ret != -1)
 		return ret;
 
-	// 적용
 	Shoe& shoe = shoes[now];
+	
 	int dist = (shoe.end - shoe.start) * shoe.speed + (T - shoe.end) * 1;
 	ret = max(ret, dist);
 
@@ -88,11 +86,9 @@ int Solve(int now)
 
 int main()
 {
-	// 총 이동 시간
 	T = 20;
 
-	// 시간별로 생성되는 신발 등록
-	shoes.push_back(Shoe(0, 0, T, 1));
+	shoes.push_back(Shoe(0,0,T,1));
 	shoes.push_back(Shoe(3, 4, 10, 3));
 	shoes.push_back(Shoe(4, 1, 4, 2));
 	shoes.push_back(Shoe(10, 2, 5, 5));
