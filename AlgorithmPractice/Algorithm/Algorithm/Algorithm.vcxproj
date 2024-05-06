@@ -189,16 +189,12 @@
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="BasicSort.h" />
-    <ClInclude Include="BfsDfs2.h" />
     <ClInclude Include="Dijkstra2.h" />
     <ClInclude Include="DP_Enchant.h" />
     <ClInclude Include="DP_KARTRIDER.h" />
     <ClInclude Include="DP_LIS.h" />
     <ClInclude Include="DP_TICTAETOE.h" />
     <ClInclude Include="DP_TRIANGLE_PATH.h" />
-    <ClInclude Include="PriorityQueue2.h" />
-    <ClInclude Include="Sort2.h" />
-    <ClInclude Include="Sort_Total.h" />
     <ClInclude Include="BfsDfs.h" />
     <ClInclude Include="BinarySearch.h" />
     <ClInclude Include="BinarySearchTree.h" />
@@ -207,7 +203,6 @@
     <ClInclude Include="AdvancedSort.h" />
     <ClInclude Include="Kruskal_MST.h" />
     <ClInclude Include="LinkedList.h" />
-    <ClInclude Include="LinkedList2.h" />
     <ClInclude Include="PriorityQueue.h" />
     <ClInclude Include="RedBlackTree.h" />
     <ClInclude Include="Vector.h" />
