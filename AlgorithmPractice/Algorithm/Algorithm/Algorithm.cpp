@@ -7,116 +7,187 @@
 #include<Windows.h>
 using namespace std;
 
+struct Vertex
+{
+	// data;
+};
+
+vector<Vertex> vertices;
+vector<vector<int>> adjacent;
+
+void CreateGraph()
+{
+	vertices.resize(6);
+	adjacent = vector<vector<int>>(6, vector<int>(6, -1));
+
+	adjacent[0][1] = 15;
+	adjacent[0][3] = 35;
+	adjacent[1][0] = 15;
+	adjacent[1][2] = 5;
+	adjacent[1][3] = 10;
+	adjacent[5][4] = 5;
+	adjacent[3][4] = 5;
+}
+
+
+void Dijikstra(int here)
+{
+	struct VertexCost
+	{
+		int vertex;
+		int cost;
+	};
+
+	list<VertexCost> discovered;
+	vector<int> best(6, INT32_MAX);
+	vector<int> parent(6, -1);
+
+	discovered.push_back(VertexCost{ here,0 });
+	best[here] = 0;
+	parent[here] = here;
+
+	while(discovered.empty() == false)
+	{
+		list<VertexCost>::iterator bestIt;
+		int bestCost = INT32_MAX;
+
+		for(auto it = discovered.begin(); it != discovered.end(); it++)
+		{
+			const int cost = it->cost;
+
+			if(cost < bestCost)
+			{
+				bestCost = cost;
+				bestIt = it;
+			}
+		}
+
+		int cost = bestIt->cost;
+		here = bestIt->vertex;
+		discovered.erase(bestIt);
+
+		if (best[here] < cost)
+			continue;
+
+		for(int there = 0; there < vertices.size(); there++)
+		{
+			if (adjacent[here][there] == -1)
+				continue;
+
+			int nextCost = best[here] + adjacent[here][there];
+			if (nextCost >= best[there])
+				continue;
+
+			discovered.push_back(VertexCost{ there, nextCost });
+			best[there] = nextCost;
+			parent[there] = here;
+		}
+	}
+	int a = 3;
+}
+
+
 int main()
 {
-	
+	CreateGraph();
+
+	Dijikstra(0);
 }
 
 #pragma region MyRegion
+
 //
-//	//Vector<int> v3;
+//struct Vertex
+//{
+//	int data;
+//};
 //
-//	//v3.reserve(8);
+//vector<Vertex> vertices;
+//vector<vector<int>> adjacent;
 //
-//	//cout << v3.size() << v3.capacity() << endl;
+//void CreateGraph()
+//{
+//	//vertices.resize(6);
+//	adjacent = vector<vector<int>>(6, vector<int>(6, -1));
 //
-//	//v3.push_back(1);
-//	//v3.push_back(2);
-//	//v3.push_back(3);
-//	//v3.push_back(4);
-//	//v3.push_back(5);
-//	//v3.push_back(6);
-//	//v3.push_back(7);
-//	//v3.push_back(8);
+//	adjacent[0][1] = 15;
+//	adjacent[0][3] = 35;
+//	adjacent[1][0] = 15;
+//	adjacent[1][2] = 5;
+//	adjacent[1][3] = 10;
+//	adjacent[3][4] = 5;
+//	adjacent[5][4] = 5;
+//}
 //
-//	//for (int i = 0; i < v3.size(); i++) 
-//	//{
-//	//	cout << v3[i] << endl;
-//	//}
+//void Dijikstra(int here)
+//{
+//	struct VertexCost
+//	{
+//		int vertex;
+//		int cost;
+//	};
 //
-//	//cout << v3.size() << v3.capacity() << endl;
+//	list<VertexCost> discovered;
+//	vector<int> best(6, INT32_MAX); // 각 정점별로 지금까지 발견한 최소 거리
+//	vector<int> parent(6, -1);
 //
-//	//v3.push_back(9);
+//	// 시작점
+//	discovered.push_back(VertexCost{ here, 0 });
+//	best[here] = 0;
+//	parent[here] = here;
 //
-//	//cout << v3.size() << v3.capacity() << endl;
+//	while(discovered.empty() == false)
+//	{
+//		// 제일 좋은 후보 찾기
+//		list<VertexCost>::iterator bestIt;
+//		int bestCost = INT32_MAX;
 //
-//	//v3.pop_back();
-//	//v3.pop_back();
-//	//v3.pop_back();
+//		for(auto it = discovered.begin(); it != discovered.end(); it++)
+//		{
+//			const int cost = it->cost;
 //
-//	//cout << v3.size() << v3.capacity() << endl;
+//			if(cost < bestCost)
+//			{
+//				bestCost = cost;
+//				bestIt = it;
+//			}
+//		}
 //
-//	//v3.clear();
+//		int cost = bestIt->cost;
+//		here = bestIt->vertex;
+//		discovered.erase(bestIt);
 //
-//	//cout << v3.size() << v3.capacity() << endl;
+//		// 방문?
+//		if (best[here] < cost)
+//			continue;
 //
+//		for(int there = 0; there < vertices.size(); there++)
+//		{
+//			// 연결되지 않았다면 스킵
+//			if (adjacent[here][there] == -1)
+//				continue;
 //
-//	//LinkedList<int> l3;
+//			// 더 좋은 경로를 찾았다면 스킵
+//			int nextCost = best[here] + adjacent[here][there];
+//			if (nextCost >= best[there])
+//				continue;
 //
-//	//l3.push_back(3);
-//	//l3.push_back(4);
-//	//l3.push_back(5);
-//	//l3.push_back(6);
-//
-//	//for (auto iter = l3.begin(); iter != l3.end(); iter++) 
-//	//{
-//	//	cout << *iter << endl;
-//	//}
-//
-//	//l3.pop_back();
-//
-//	//LinkedList<int> ::iterator iter2 = l3.begin();
-//	//iter2++;
-//	//l3.insert(iter2, 999);
-//
-//	//for (auto iter = l3.begin(); iter != l3.end(); iter++)
-//	//{
-//	//	cout << "추가: " << *iter << endl;
-//	//}
-//
-//
-//	//cout << l3.size() << endl;
-//
-//	//l3.erase(iter2);
-//
-//
-//	//for (auto iter = l3.begin(); iter != l3.end(); iter++)
-//	//{
-//	//	cout << "추가2: " << *iter << endl;
-//	//}
-//
-//	//cout << l3.size() << endl;
-//
-//
-//	//PriorityQueue<int> pq;
-//
-//	//pq.push(100);
-//	//pq.push(300);
-//	//pq.push(200);
-//	//pq.push(500);
-//	//pq.push(400);
-//
-//
-//	//while (pq.empty() == false)
-//	//{
-//	//	int value = pq.top();
-//	//	pq.pop();
-//
-//	//	cout << value << endl;
-//	//}
-//
-//	//vector<int> v{1,3,2,4,9,6,7,5,8};
-//
-//	////BubbleSort<int>(v,greater<int>());
-//	////SelectionSort(v);
-//	////InsertionSort(v);
-//	////HeapSort(v);
-//	//MergeSort(v, 0, v.size()-1);
-//	////QuickSort(v, 0, v.size() - 1);
-//
-//	//for (auto num : v) 
-//	//{
-//	//	cout << num << endl;
-//	//}
 #pragma endregion
+
+//			discovered.push_back(VertexCost{ there, nextCost });
+//			best[there] = nextCost;
+//			parent[there] = here;
+//		}
+//		
+//	}
+//
+//	int a = 3;
+//}
+//
+//int main()
+//{
+//	CreateGraph();
+//
+//	Dijikstra(0);
+//}
 
